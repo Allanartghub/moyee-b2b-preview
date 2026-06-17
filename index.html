@@ -285,6 +285,290 @@
   .logo-ribbon:before,.logo-ribbon:after{width:48px;}
 }
 
+
+
+/* Catalogue overview: simplified tabs + replaceable horizontal rows */
+.catalogue-nav-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:-8px 0 30px;}
+.catalogue-quicknav{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+.catalogue-overview{display:block;}
+.catalogue-overview.is-hidden{display:none!important;}
+.catalogue-preview-content{display:grid;gap:44px;}
+.catalogue-route-row{background:transparent;border:0;box-shadow:none;padding:0;overflow:visible;}
+.catalogue-route-row + .catalogue-route-row{margin-top:34px;}
+.catalogue-route-head{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:14px;}
+.catalogue-route-head h3{font-size:26px;letter-spacing:-.045em;margin-bottom:6px;}
+.catalogue-route-head p{color:var(--muted);max-width:720px;margin:0;line-height:1.55;}
+.catalogue-route-kicker{display:inline-flex;align-items:center;gap:8px;background:var(--yellow);color:var(--black);border:2px solid var(--black);padding:6px 10px;margin-bottom:10px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.055em;}
+.catalogue-route-row.espresso-route .catalogue-route-kicker{background:var(--pink);color:#fff;}
+.catalogue-route-row.accessory-route .catalogue-route-kicker{background:var(--black);color:#fff;}
+.product-row{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(285px,310px);grid-template-columns:none!important;gap:18px;overflow-x:auto;overflow-y:hidden;padding:4px 4px 18px;scroll-snap-type:x mandatory;scrollbar-width:thin;-webkit-overflow-scrolling:touch;}
+.product-row::-webkit-scrollbar{height:8px;}.product-row::-webkit-scrollbar-track{background:#eee;}.product-row::-webkit-scrollbar-thumb{background:var(--pink);border-radius:999px;}
+.product-row .product-card{scroll-snap-align:start;min-height:590px;}
+.view-full-catalogue{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;flex:0 0 auto;border:2px solid var(--black);background:#fff;color:var(--black);box-shadow:5px 5px 0 rgba(232,62,140,.18);padding:11px 48px 11px 16px;min-height:44px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:transform var(--transition),box-shadow var(--transition),background var(--transition),color var(--transition);text-decoration:underline;text-decoration-color:var(--pink);text-decoration-thickness:3px;text-underline-offset:5px;}
+.view-full-catalogue:hover{transform:translateY(-2px);background:var(--yellow);box-shadow:8px 8px 0 rgba(232,62,140,.24);}
+.view-full-catalogue::after{content:"↘";position:absolute;right:13px;top:50%;width:26px;height:26px;display:grid;place-items:center;border:2px solid var(--pink);border-radius:50%;transform:translateY(-50%);color:var(--pink);font-size:15px;line-height:1;animation:arrowBounce 1.5s ease-in-out infinite;background:#fff;}
+.view-full-catalogue.is-open::after{content:"↖";}
+.view-full-catalogue.is-open{background:var(--black);color:#fff;text-decoration-color:var(--yellow);}
+.view-full-catalogue.is-open::after{background:var(--yellow);color:var(--black);border-color:var(--yellow);}
+.catalogue-full{margin-top:34px;}
+.catalogue-full.is-collapsed{display:none!important;}
+.catalogue-full.is-open{display:block;}
+.tab-btn{border:1px solid var(--line);background:#fff;padding:10px 14px;font-weight:900;font-size:12px;text-transform:uppercase;cursor:pointer;transition:transform var(--transition),border-color var(--transition),box-shadow var(--transition),background var(--transition),color var(--transition)}
+.tab-btn:hover{transform:translateY(-2px);border-color:var(--black);box-shadow:0 10px 22px rgba(0,0,0,.08)}
+.tab-btn.active{background:var(--black);color:#fff;border-color:var(--black)}
+@keyframes arrowBounce{0%,100%{transform:translateY(-50%) translateX(0);}50%{transform:translateY(-42%) translateX(3px);}}
+@media(max-width:1080px){.catalogue-route-head{align-items:flex-start;}.product-row{grid-auto-columns:minmax(285px,46vw);}.catalogue-nav-row{align-items:flex-start;}}
+@media(max-width:640px){.catalogue-nav-row{display:grid;}.catalogue-route-row{padding:0;}.catalogue-route-head{display:grid;}.product-row{grid-auto-columns:minmax(270px,88vw);}.view-full-catalogue{width:100%;}}
+
+
+/* Carousel controls for horizontal catalogue rows */
+.catalogue-carousel{
+  position:relative;
+  width:100%;
+  max-width:100%;
+}
+.product-row{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  gap:18px;
+  width:100%;
+  max-width:100%;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  padding:4px 58px 18px 4px;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;
+}
+.product-row .product-card{
+  flex:0 0 320px!important;
+  width:320px!important;
+  min-width:320px!important;
+  max-width:320px!important;
+  scroll-snap-align:start;
+}
+.carousel-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:6;
+  width:44px;
+  height:44px;
+  border:2px solid var(--black);
+  background:#fff;
+  color:var(--black);
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  font-size:26px;
+  line-height:1;
+  font-weight:900;
+  box-shadow:5px 5px 0 rgba(232,62,140,.18);
+  transition:transform var(--transition), background var(--transition), color var(--transition), box-shadow var(--transition), opacity var(--transition);
+}
+.carousel-arrow:hover{
+  background:var(--pink);
+  color:#fff;
+  transform:translateY(-50%) translateY(-2px);
+  box-shadow:8px 8px 0 rgba(0,0,0,.12);
+}
+.carousel-prev{left:-12px;}
+.carousel-next{right:-12px;}
+.carousel-arrow:disabled{
+  opacity:.28;
+  cursor:not-allowed;
+  transform:translateY(-50%);
+  background:#fff;
+  color:var(--black);
+  box-shadow:none;
+}
+.catalogue-scroll-hint{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.catalogue-scroll-hint::after{
+  content:'→';
+  color:var(--pink);
+  font-size:16px;
+  animation:scrollHint 1.4s ease-in-out infinite;
+}
+@keyframes scrollHint{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
+@media(max-width:1080px){
+  .product-row .product-card{flex-basis:310px!important;width:310px!important;min-width:310px!important;max-width:310px!important;}
+  .carousel-prev{left:0;}.carousel-next{right:0;}
+}
+@media(max-width:640px){
+  .product-row{padding-right:46px;}
+  .product-row .product-card{flex-basis:84vw!important;width:84vw!important;min-width:84vw!important;max-width:84vw!important;}
+  .carousel-arrow{width:38px;height:38px;font-size:22px;}
+}
+
+
+
+/* Final update: visible horizontal scrollbars for machine rows */
+.catalogue-carousel{
+  position:relative;
+  width:100%;
+  max-width:100%;
+  overflow:visible;
+}
+.product-row{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  gap:18px!important;
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:scroll!important;
+  overflow-y:hidden!important;
+  padding:4px 4px 20px!important;
+  scroll-snap-type:x proximity;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-inline:contain;
+  scrollbar-width:auto!important;
+  scrollbar-color:var(--pink) #efefef!important;
+  cursor:grab;
+}
+.product-row:active{cursor:grabbing;}
+.product-row::-webkit-scrollbar{
+  height:12px!important;
+  display:block!important;
+}
+.product-row::-webkit-scrollbar-track{
+  background:#efefef!important;
+  border-radius:999px!important;
+  border:1px solid #e1e1e1!important;
+}
+.product-row::-webkit-scrollbar-thumb{
+  background:var(--pink)!important;
+  border-radius:999px!important;
+  border:2px solid #efefef!important;
+}
+.product-row::-webkit-scrollbar-thumb:hover{
+  background:#cf2f78!important;
+}
+.product-row .product-card{
+  flex:0 0 320px!important;
+  width:320px!important;
+  min-width:320px!important;
+  max-width:320px!important;
+  scroll-snap-align:start;
+}
+.carousel-arrow{
+  display:none!important;
+}
+.catalogue-scroll-hint::after{
+  content:'↔';
+}
+@media(max-width:1080px){
+  .product-row .product-card{
+    flex-basis:310px!important;
+    width:310px!important;
+    min-width:310px!important;
+    max-width:310px!important;
+  }
+}
+@media(max-width:640px){
+  .product-row{
+    padding-bottom:18px!important;
+  }
+  .product-row .product-card{
+    flex-basis:84vw!important;
+    width:84vw!important;
+    min-width:84vw!important;
+    max-width:84vw!important;
+  }
+}
+
+
+/* ABSOLUTE FINAL SCROLL FIX: catalogue preview rows */
+.catalogue-preview-content,
+.catalogue-route-row,
+.catalogue-carousel{
+  min-width:0!important;
+  width:100%!important;
+  max-width:100%!important;
+}
+.catalogue-route-row{
+  overflow:visible!important;
+}
+.catalogue-carousel{
+  overflow:visible!important;
+}
+.product-row[data-carousel-row]{
+  display:flex!important;
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+  align-items:stretch!important;
+  gap:18px!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  padding:4px 6px 24px!important;
+  scroll-snap-type:x proximity!important;
+  scroll-behavior:smooth!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-inline:contain!important;
+  touch-action:pan-x!important;
+  scrollbar-width:auto!important;
+  scrollbar-color:var(--pink) #efefef!important;
+  cursor:grab!important;
+}
+.product-row[data-carousel-row]:active{
+  cursor:grabbing!important;
+}
+.product-row[data-carousel-row]::-webkit-scrollbar{
+  height:14px!important;
+  display:block!important;
+}
+.product-row[data-carousel-row]::-webkit-scrollbar-track{
+  background:#efefef!important;
+  border-radius:999px!important;
+  border:1px solid #e1e1e1!important;
+}
+.product-row[data-carousel-row]::-webkit-scrollbar-thumb{
+  background:var(--pink)!important;
+  border-radius:999px!important;
+  border:2px solid #efefef!important;
+}
+.product-row[data-carousel-row]::-webkit-scrollbar-thumb:hover{
+  background:#cf2f78!important;
+}
+.product-row[data-carousel-row] > .product-card{
+  flex:0 0 320px!important;
+  width:320px!important;
+  min-width:320px!important;
+  max-width:320px!important;
+  scroll-snap-align:start!important;
+}
+@media(max-width:1080px){
+  .product-row[data-carousel-row] > .product-card{
+    flex-basis:310px!important;
+    width:310px!important;
+    min-width:310px!important;
+    max-width:310px!important;
+  }
+}
+@media(max-width:640px){
+  .product-row[data-carousel-row] > .product-card{
+    flex-basis:84vw!important;
+    width:84vw!important;
+    min-width:84vw!important;
+    max-width:84vw!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -313,7 +597,7 @@
 
     <section class="route-band">
       <div class="container">
-        <div class="section-head reveal"><div><div class="eyebrow">Choose your route</div><h2>Make the catalogue easier to enter.</h2></div><p>Different buyers arrive with different needs. Give them a clear door before asking them to choose a machine model.</p></div>
+        <div class="section-head reveal"><div><div class="eyebrow">Choose your route</div><h2>Make the catalogue easier to enter.</h2></div></div>
         <div class="route-grid">
           <a class="route-card reveal" href="#finder"><strong>I do not know what we need</strong><span>Use the scale to estimate volume and machine tier.</span></a>
           <a class="route-card reveal" href="#machines"><strong>I want the catalogue</strong><span>Browse machines by office, hospitality and high volume.</span></a>
@@ -393,6 +677,7 @@
       </div>
     </section>
     
+
 <section id="machines" class="products">
   <div class="container">
     <div class="section-head reveal">
@@ -402,11 +687,20 @@
       </div>
     </div>
 
-    <div class="catalogue-tabs reveal" id="catalogueTabs" aria-label="Machine catalogue filters"></div>
-    <div class="catalogue-groups" id="catalogueGroups"></div>
+    <div class="catalogue-nav-row reveal">
+      <div class="catalogue-quicknav" id="catalogueTabs" aria-label="Machine catalogue filters"></div>
+      <button class="view-full-catalogue" type="button" data-show-all-machines>View full catalogue</button>
+    </div>
+
+    <div class="catalogue-overview reveal" id="catalogueOverview" aria-label="Catalogue preview rows">
+      <div id="cataloguePreviewContent"></div>
+    </div>
+
+    <div class="catalogue-full is-collapsed" id="fullCatalogue">
+      <div class="catalogue-groups" id="catalogueGroups"></div>
+    </div>
   </div>
 </section>
-
 
     <section id="coffee" class="coffee-section">
       <div class="container">
@@ -476,6 +770,20 @@
       </div>
     </section>
 
+    <section id="lease" class="lease">
+      <div class="container">
+        <div class="section-head reveal"><div><div class="eyebrow">Buy, lease or managed</div><h2>Three clear ways to work with Moyee.</h2></div></div>
+        <p class="reveal" style="color:rgba(255,255,255,.68);margin:-8px 0 26px;max-width:760px;">Hover to preview. Click a card to select the route you want to discuss. Only the selected option stays highlighted.</p>
+        <div class="package-grid">
+          <article class="package-card reveal" data-package="buy" tabindex="0" role="button" aria-pressed="false"><h3>Buy outright</h3><div class="package-price">Machine price <span>+ coffee from €[confirm]/kg</span></div><p>Best for businesses that want to own the machine and add Moyee as their coffee supplier.</p><ul><li>Upfront machine purchase</li><li>Monthly Moyee coffee supply</li><li>Optional service and maintenance</li><li>Optional events, tastings and training</li></ul><a href="#machines" class="mini-link">View catalogue →</a></article>
+          <article class="package-card reveal" data-package="lease" tabindex="0" role="button" aria-pressed="false"><h3>Lease / rental package</h3><div class="package-price">From €[confirm]/month <span>machine package</span></div><p>Best for offices that want lower upfront cost and predictable monthly planning.</p><ul><li>Machine lease or rental route</li><li>Coffee supply forecast from the slider</li><li>Service and maintenance options</li><li>Upgrade path as the team grows</li></ul><a href="#quote" class="mini-link">Ask about leasing →</a></article>
+          <article class="package-card reveal" data-package="managed" tabindex="0" role="button" aria-pressed="false"><h3>Managed coffee solution</h3><div class="package-price">From €[confirm]/month <span>machine + coffee + service</span></div><p>Best for larger offices, multi-site teams, hospitality and ESG-led procurement.</p><ul><li>Machine recommendation</li><li>Monthly coffee supply</li><li>Maintenance and account support</li><li>Barista service, tastings, activations or training where needed</li></ul><a href="#quote" class="mini-link">Build custom setup →</a></article>
+        </div>
+      </div>
+    </section>
+
+
+
     <section id="barista" class="service-section">
       <div class="container">
         <div class="section-head reveal"><div><div class="eyebrow">Coffee experiences and services</div><h2>Beyond the machine: coffee for teams, clients and impact moments.</h2></div></div>
@@ -490,41 +798,23 @@
       </div>
     </section>
 
-    <section id="lease" class="lease">
-      <div class="container">
-        <div class="section-head reveal"><div><div class="eyebrow">Buy, lease or managed</div><h2>Three clear ways to work with Moyee.</h2></div></div>
-        <p class="reveal" style="color:rgba(255,255,255,.68);margin:-8px 0 26px;max-width:760px;"></p>
-        <div class="package-grid">
-          <article class="package-card reveal" data-package="buy" tabindex="0" role="button" aria-pressed="false"><h3>Buy outright</h3><div class="package-price">Machine price <span>+ coffee from €[confirm]/kg</span></div><p>Best for businesses that want to own the machine and add Moyee as their coffee supplier.</p><ul><li>Upfront machine purchase</li><li>Monthly Moyee coffee supply</li><li>Optional service and maintenance</li><li>Optional events, tastings and training</li></ul><a href="#machines" class="mini-link">View catalogue →</a></article>
-          <article class="package-card reveal" data-package="lease" tabindex="0" role="button" aria-pressed="false"><h3>Lease / rental package</h3><div class="package-price">From €[confirm]/month <span>machine package</span></div><p>Best for offices that want lower upfront cost and predictable monthly planning.</p><ul><li>Machine lease or rental route</li><li>Coffee supply forecast from the slider</li><li>Service and maintenance options</li><li>Upgrade path as the team grows</li></ul><a href="#quote" class="mini-link">Ask about leasing →</a></article>
-          <article class="package-card reveal" data-package="managed" tabindex="0" role="button" aria-pressed="false"><h3>Managed coffee solution</h3><div class="package-price">From €[confirm]/month <span>machine + coffee + service</span></div><p>Best for larger offices, multi-site teams, hospitality and ESG-led procurement.</p><ul><li>Machine recommendation</li><li>Monthly coffee supply</li><li>Maintenance and account support</li><li>Barista service, tastings, activations or training where needed</li></ul><a href="#quote" class="mini-link">Build custom setup →</a></article>
-        </div>
-        </div>
-    </section>
-
     <section id="proof" class="proof-section">
       <div class="container">
         <div class="section-head reveal"><div><div class="eyebrow">Proof and credibility</div><h2>Trusted workplace coffee, backed by real setups.</h2></div></div>
         <div class="logo-ribbon reveal" aria-label="Client and partner logos">
           <div class="logo-track">
-            <div class="logo-item"><img src="assets/LOGO 1.png" alt="Client logo 1" loading="lazy" /></div>
-            <div class="logo-item"><img src="assets/LOGO 2.png" alt="Client logo 2" loading="lazy" /></div>
-            <div class="logo-item"><img src="assets/LOGO 3.png" alt="Client logo 3" loading="lazy" /></div>
-            <div class="logo-item"><img src="assets/LOGO 4.png" alt="Client logo 4" loading="lazy" /></div>
-            <div class="logo-item"><img src="assets/LOGO 5.png" alt="Client logo 5" loading="lazy" /></div>
-            <div class="logo-item"><img src="assets/LOGO 6.png" alt="Client logo 6" loading="lazy" /></div>
-            <div class="logo-item"><img src="assets/LOGO 7.png" alt="Client logo 1" loading="lazy" /></div>
-            <div class="logo-item"><img src="assets/LOGO 8.png" alt="Client logo 1" loading="lazy" /></div>
-            <div class="logo-item"><img src="assets/LOGO 9.png" alt="Client logo 1" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 1.png" alt="" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 2.png" alt="" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 3.png" alt="" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 4.png" alt="" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 5.png" alt="" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 6.png" alt="" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 7.png" alt="" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 8.png" alt="" loading="lazy" /></div>
-            <div class="logo-item" aria-hidden="true"><img src="assets/LOGO 9.png" alt="" loading="lazy" /></div>
+            <div class="logo-item"><img src="assets/logo 1.png" alt="Client logo 1" loading="lazy" /></div>
+            <div class="logo-item"><img src="assets/logo 2.png" alt="Client logo 2" loading="lazy" /></div>
+            <div class="logo-item"><img src="assets/logo 3.png" alt="Client logo 3" loading="lazy" /></div>
+            <div class="logo-item"><img src="assets/logo 4.png" alt="Client logo 4" loading="lazy" /></div>
+            <div class="logo-item"><img src="assets/logo 5.png" alt="Client logo 5" loading="lazy" /></div>
+            <div class="logo-item"><img src="assets/logo 6.png" alt="Client logo 6" loading="lazy" /></div>
+            <div class="logo-item" aria-hidden="true"><img src="assets/logo 1.png" alt="" loading="lazy" /></div>
+            <div class="logo-item" aria-hidden="true"><img src="assets/logo 2.png" alt="" loading="lazy" /></div>
+            <div class="logo-item" aria-hidden="true"><img src="assets/logo 3.png" alt="" loading="lazy" /></div>
+            <div class="logo-item" aria-hidden="true"><img src="assets/logo 4.png" alt="" loading="lazy" /></div>
+            <div class="logo-item" aria-hidden="true"><img src="assets/logo 5.png" alt="" loading="lazy" /></div>
+            <div class="logo-item" aria-hidden="true"><img src="assets/logo 6.png" alt="" loading="lazy" /></div>
           </div>
         </div>
         <div class="case-grid">
@@ -608,14 +898,9 @@
 
 
     const catalogueFilters = [
-      { key: 'all', label: 'All' },
-      { key: 'office', label: 'Office' },
-      { key: 'superauto', label: 'Super automatic' },
-      { key: 'entry', label: 'Entry espresso' },
-      { key: 'growing', label: 'Growing cafés' },
-      { key: 'premium', label: 'Premium & specialty' },
-      { key: 'grinder', label: 'Grinders' },
-      { key: 'workflow', label: 'Workflow' }
+      { key: 'automatic', label: 'Automatic' },
+      { key: 'espresso', label: 'Espresso' },
+      { key: 'accessories', label: 'Grinders & Accessories' }
     ];
 
     const catalogueGroups = [
@@ -716,32 +1001,174 @@
     function renderCatalogue(){
       const tabs=document.getElementById('catalogueTabs');
       const groups=document.getElementById('catalogueGroups');
-      if(!tabs || !groups) return;
-      tabs.innerHTML = catalogueFilters.map(filter => `<button class="tab-btn${filter.key==='all'?' active':''}" data-filter="${filter.key}">${filter.label}</button>`).join('');
+      const preview=document.getElementById('cataloguePreviewContent');
+      const fullCatalogue=document.getElementById('fullCatalogue');
+      const catalogueOverview=document.getElementById('catalogueOverview');
+      const viewAllButton=document.querySelector('[data-show-all-machines]');
+      if(!tabs || !groups || !preview) return;
+
+      const getGroup = (key) => catalogueGroups.find(group => group.key === key);
+      const productsByGroup = (keys) => keys.flatMap(key => getGroup(key)?.products || []);
+
+      const previewLayouts = {
+        automatic: {
+          rows: [
+            { className:'automatic-route', kicker:'Office bean-to-cup', title:'Office bean-to-cup machines', intro:'For workplaces that want reliable coffee without a trained barista.', products:productsByGroup(['office']) },
+            { className:'automatic-route', kicker:'Super automatic systems', title:'Super automatic coffee systems', intro:'For premium offices, hotels, lounges and high-volume self-service environments.', products:productsByGroup(['superauto']) }
+          ]
+        },
+        espresso: {
+          rows: [
+            { className:'espresso-route', kicker:'Entry espresso', title:'Entry espresso machines', intro:'Compact professional machines for smaller cafés, bakeries and office coffee bars.', products:productsByGroup(['entry']) },
+            { className:'espresso-route', kicker:'Growing cafés', title:'Growing café and hospitality machines', intro:'Workhorse espresso machines for busier hospitality spaces and trained teams.', products:productsByGroup(['growing']) },
+            { className:'espresso-route', kicker:'Café & specialty', title:'Premium and specialty espresso machines', intro:'Precision-led machines for specialty cafés, flagship venues and premium coffee bars.', products:productsByGroup(['premium']) }
+          ]
+        },
+        accessories: {
+          rows: [
+            { className:'accessory-route', kicker:'Grinders', title:'Commercial grinders', intro:'Grinder platforms and variants that complete the espresso workflow.', products:productsByGroup(['grinder']) },
+            { className:'accessory-route', kicker:'Workflow', title:'Workflow accessories and modules', intro:'Tamping, milk, chocolate and workflow add-ons for more complete setups.', products:productsByGroup(['workflow']) }
+          ]
+        }
+      };
+
+      function rowMarkup(row){
+        return `
+          <section class="catalogue-route-row ${row.className}" aria-label="${row.title}">
+            <div class="catalogue-route-head">
+              <div>
+                <span class="catalogue-route-kicker">${row.kicker}</span>
+                <h3>${row.title}</h3>
+                <p>${row.intro}</p>
+                <span class="catalogue-scroll-hint">Scroll to see more</span>
+              </div>
+            </div>
+            <div class="catalogue-carousel" data-carousel>
+              <button class="carousel-arrow carousel-prev" type="button" aria-label="Scroll ${row.title} left">‹</button>
+              <div class="product-row" data-carousel-row>${row.products.map(productCard).join('')}</div>
+              <button class="carousel-arrow carousel-next" type="button" aria-label="Scroll ${row.title} right">›</button>
+            </div>
+          </section>`;
+      }
+
+      function initialiseCatalogueCarousels(root=preview){
+        root.querySelectorAll('[data-carousel]').forEach((carousel)=>{
+          const row=carousel.querySelector('[data-carousel-row]');
+          const prev=carousel.querySelector('.carousel-prev');
+          const next=carousel.querySelector('.carousel-next');
+          if(!row || !prev || !next) return;
+
+          const amount=()=>{
+            const card=row.querySelector('.product-card');
+            const cardWidth=card ? card.getBoundingClientRect().width : 320;
+            return Math.max(cardWidth + 18, Math.min(row.clientWidth * .85, (cardWidth + 18) * 2));
+          };
+
+          const update=()=>{
+            const maxScroll=row.scrollWidth - row.clientWidth;
+            prev.disabled=row.scrollLeft <= 4;
+            next.disabled=row.scrollLeft >= maxScroll - 4;
+            carousel.classList.toggle('has-overflow', maxScroll > 4);
+          };
+
+          prev.addEventListener('click',()=>row.scrollBy({left:-amount(),behavior:'smooth'}));
+          next.addEventListener('click',()=>row.scrollBy({left:amount(),behavior:'smooth'}));
+          row.addEventListener('scroll',update,{passive:true});
+          row.addEventListener('wheel',(event)=>{
+            if(Math.abs(event.deltaY)>Math.abs(event.deltaX)){
+              event.preventDefault();
+              row.scrollLeft += event.deltaY;
+            }
+          },{passive:false});
+
+          let isDown=false;
+          let startX=0;
+          let scrollLeft=0;
+          row.addEventListener('pointerdown',(event)=>{
+            isDown=true;
+            row.setPointerCapture?.(event.pointerId);
+            startX=event.clientX;
+            scrollLeft=row.scrollLeft;
+          });
+          row.addEventListener('pointermove',(event)=>{
+            if(!isDown) return;
+            row.scrollLeft=scrollLeft-(event.clientX-startX);
+          });
+          row.addEventListener('pointerup',()=>{isDown=false;});
+          row.addEventListener('pointercancel',()=>{isDown=false;});
+          row.addEventListener('pointerleave',()=>{isDown=false;});
+
+          window.addEventListener('resize',update,{passive:true});
+          requestAnimationFrame(update);
+          setTimeout(update,250);
+        });
+      }
+
+      function renderPreview(filter='automatic'){
+        const layout=previewLayouts[filter] || previewLayouts.automatic;
+        preview.innerHTML = `<div class="catalogue-preview-content">${layout.rows.map(rowMarkup).join('')}</div>`;
+        tabs.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.filter===filter));
+        catalogueOverview?.classList.remove('is-hidden');
+        fullCatalogue?.classList.add('is-collapsed');
+        fullCatalogue?.classList.remove('is-open');
+        if(viewAllButton){
+          viewAllButton.classList.remove('is-open');
+          viewAllButton.textContent='View full catalogue';
+        }
+        preview.querySelectorAll('.product-card').forEach((el)=>{
+          el.classList.add('reveal');
+          revealObserver.observe(el);
+        });
+        initialiseCatalogueCarousels(preview);
+      }
+
+      tabs.innerHTML = catalogueFilters.map(filter => `<button class="tab-btn" data-filter="${filter.key}">${filter.label}</button>`).join('');
       groups.innerHTML = catalogueGroups.map(group => `
         <div class="catalogue-group" data-group="${group.key}">
           <div class="catalogue-group-head reveal"><h3>${group.title}</h3><p>${group.intro}</p></div>
           <div class="product-grid">${group.products.map(productCard).join('')}</div>
         </div>`).join('');
 
-      groups.querySelectorAll('.reveal').forEach((el)=>revealObserver.observe(el));
+      document.querySelectorAll('#catalogueGroups .reveal').forEach((el)=>revealObserver.observe(el));
+
+      function applyCatalogueFilter(filter='all'){
+        groups.querySelectorAll('.product-card').forEach(card=>{
+          const cats=(card.dataset.category||'').split(/\s+/);
+          const visible=filter==='all' || cats.includes(filter);
+          card.classList.toggle('is-hidden',!visible);
+        });
+        groups.querySelectorAll('.catalogue-group').forEach(group=>{
+          const hasVisible=[...group.querySelectorAll('.product-card')].some(card=>!card.classList.contains('is-hidden'));
+          group.classList.toggle('is-hidden',!hasVisible);
+        });
+      }
+
+      function openFullCatalogue(filter='all', shouldScroll=true){
+        catalogueOverview?.classList.add('is-hidden');
+        fullCatalogue?.classList.remove('is-collapsed');
+        fullCatalogue?.classList.add('is-open');
+        tabs.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.remove('active'));
+        if(viewAllButton){
+          viewAllButton.classList.add('is-open');
+          viewAllButton.textContent='Showing full catalogue';
+        }
+        applyCatalogueFilter(filter);
+        if(shouldScroll){document.getElementById('machines')?.scrollIntoView({behavior:'smooth',block:'start'});}
+      }
 
       tabs.querySelectorAll('.tab-btn').forEach((button)=>{
-        button.addEventListener('click',()=>{
-          tabs.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.remove('active'));
-          button.classList.add('active');
-          const filter=button.dataset.filter;
-          groups.querySelectorAll('.product-card').forEach(card=>{
-            const cats=(card.dataset.category||'').split(/\s+/);
-            const visible=filter==='all'||cats.includes(filter);
-            card.classList.toggle('is-hidden',!visible);
-          });
-          groups.querySelectorAll('.catalogue-group').forEach(group=>{
-            const hasVisible=[...group.querySelectorAll('.product-card')].some(card=>!card.classList.contains('is-hidden'));
-            group.classList.toggle('is-hidden',!hasVisible);
-          });
-        });
+        button.addEventListener('click',()=>renderPreview(button.dataset.filter));
       });
+
+      viewAllButton?.addEventListener('click',()=>{
+        if(viewAllButton.classList.contains('is-open')){
+          renderPreview('automatic');
+        }else{
+          openFullCatalogue('all',true);
+        }
+      });
+
+      renderPreview('automatic');
     }
 
     renderCatalogue();
