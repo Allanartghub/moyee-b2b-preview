@@ -583,6 +583,33 @@
 .quote-context strong{display:block;font-size:17px;line-height:1.3;margin-bottom:6px;}
 .quote-context p{margin:0;color:#444;font-size:13px;line-height:1.5;}
 
+
+/* Native catalogue scrolling: no wheel hijack, pointer capture, snap or smooth-scroll competition */
+#machines .product-row[data-carousel-row]{
+  scroll-snap-type:none!important;
+  scroll-behavior:auto!important;
+  touch-action:auto!important;
+  cursor:auto!important;
+  overscroll-behavior-inline:auto!important;
+}
+#machines .product-row[data-carousel-row]:active{cursor:auto!important;}
+#machines .product-row[data-carousel-row] > .product-card{scroll-snap-align:none!important;}
+
+/* Quote context populated by estimator/product quote actions */
+.quote-selection{
+  grid-column:1/-1;
+  display:none;
+  background:var(--pink-soft);
+  border:1px solid var(--pink);
+  padding:18px;
+  margin-bottom:4px;
+}
+.quote-selection.is-visible{display:block;}
+.quote-selection .eyebrow{margin-bottom:8px;}
+.quote-selection h3{margin-bottom:7px;}
+.quote-selection p{margin:0;color:#444;line-height:1.55;}
+.quote-panel.has-selection [data-qualification-field]{display:none;}
+
 </style>
 </head>
 <body>
@@ -597,7 +624,7 @@
           <div class="eyebrow">Professional coffee for Irish workplaces</div>
           <h1>Machines, Moyee coffee and barista support in one B2B setup.</h1>
           <p class="hero-copy">A guided catalogue for offices, cafés and workplaces in Ireland. Estimate your coffee volume, match the right machine tier, then choose whether to buy, lease, add coffee supply, or book barista service for events and workplace moments.</p>
-          <div class="hero-actions"><a href="#finder" class="btn pink-btn">Find my setup</a><a href="#trial" class="btn secondary">Order tasting pack</a><a href="#machines" class="btn secondary">View catalogue</a></div>
+          <div class="hero-actions"><a href="#finder" class="btn pink-btn">Find my setup</a><a href="https://moyeecoffee.ie/collections/bundles/products/moyee-coffee-taster-pack" class="btn secondary">Order tasting pack</a><a href="#machines" class="btn secondary">View catalogue</a></div>
           <div class="trust-strip"><span class="trust-chip">Machine sales & leasing</span><span class="trust-chip">Monthly coffee supply</span><span class="trust-chip">Service & maintenance options</span><span class="trust-chip">Barista service for events</span><span class="trust-chip">FairChain sourcing story</span></div>
         </div>
         <div class="hero-visual reveal">
@@ -683,7 +710,7 @@
         <div>
           <div class="eyebrow">Low-friction first step</div><h2>Not ready for a machine quote? Start with the coffee.</h2>
           <p class="hero-copy">An office tasting pack gives the team a way to taste Moyee before committing to a machine, lease or managed package. This is the softer CTA for lower-intent B2B visitors.</p>
-          <div class="cta-row"><a href="#quote" class="btn pink-btn">Request tasting pack</a><a href="#coffee" class="btn secondary">View office coffees</a></div>
+          <div class="cta-row"><a href="https://moyeecoffee.ie/collections/bundles/products/moyee-coffee-taster-pack" class="btn pink-btn">Request tasting pack</a><a href="#coffee" class="btn secondary">View office coffees</a></div>
         </div>
         <div class="trial-list">
           <div>3–4 Moyee blends for office tasting</div><div>Whole bean, filter or espresso grind options</div><div>Delivered to your workplace</div><div>Follow-up machine and coffee supply recommendation</div><div>Placeholder: from €X for the trial pack</div>
@@ -871,12 +898,12 @@
           <input type="hidden" name="estimated_coffee_drinkers" id="selectedDrinkersField" />
           <input type="hidden" name="estimated_cups_per_day" id="selectedCupsField" />
           <input type="hidden" name="estimated_1kg_bags_per_month" id="selectedBagsField" />
-          <div class="form-grid"><label>Company name<input type="text" placeholder="Company Ltd." /></label><label>Your name<input type="text" placeholder="Name" /></label><label>Email<input type="email" placeholder="you@company.com" /></label><label>Phone<input type="tel" placeholder="+353" /></label><label>Number of coffee drinkers<input type="number" min="1" placeholder="e.g. 35" /></label><label>Interested in<select><option>Not sure yet</option><option>Buy a machine outright</option><option>Lease / rental package</option><option>Managed coffee solution</option><option>Coffee supply only</option><option>Office tasting pack</option><option>Product demo</option><option>Client event / corporate activation</option><option>ESG / sustainability initiative</option><option>Training</option></select></label><label class="full">Message<textarea placeholder="Tell us what you need: office coffee, machine, supply, lease, event, tasting, product demo, tree planting, training or timeline..."></textarea></label></div><button class="btn pink-btn" type="button">Get my recommendation</button></form>
+          <div class="form-grid"><label>Company name<input type="text" placeholder="Company Ltd." /></label><label>Your name<input type="text" placeholder="Name" /></label><label>Email<input type="email" placeholder="you@company.com" /></label><label>Phone<input type="tel" placeholder="+353" /></label><label data-qualification-field>Number of coffee drinkers<input id="quoteDrinkers" type="number" min="1" placeholder="e.g. 35" /></label><label data-qualification-field>Interested in<select id="quoteInterest"><option>Not sure yet</option><option>Buy a machine outright</option><option>Lease / rental package</option><option>Managed coffee solution</option><option>Coffee supply only</option><option>Office tasting pack</option><option>Product demo</option><option>Client event / corporate activation</option><option>ESG / sustainability initiative</option><option>Training</option></select></label><label class="full">Message<textarea id="quoteMessage" placeholder="Tell us what you need: office coffee, machine, supply, lease, event, tasting, product demo, tree planting, training or timeline..."></textarea></label></div><button class="btn pink-btn" id="quoteSubmitButton" type="button">Get my recommendation</button></form>
       </div>
     </section>
   </main>
 
-  <div class="sticky-actions" aria-label="Sticky conversion actions"><a href="#finder">Find my setup</a><a href="#quote">Get quote</a><a href="#trial">Order tasting pack</a></div>
+  <div class="sticky-actions" aria-label="Sticky conversion actions"><a href="#finder">Find my setup</a><a href="#quote">Get quote</a><a href="https://moyeecoffee.ie/collections/bundles/products/moyee-coffee-taster-pack">Order tasting pack</a></div>
 
 
   <script>
@@ -946,9 +973,9 @@
         intro: 'Premium automated coffee for high-volume offices, hotels, lounges and self-service environments.',
         products: [
           { name:"Eversys Cameo C'2ms Super Automatic Coffee Machine", badge:'Compact premium', price:'Quote required', image:"assets/Eversys Cameo C'2ms.png", alt:"Eversys Cameo C'2ms", categories:['superauto','office'], monthly:'Up to 175 drinks/hour', specs:[['Best for','Premium offices / lounges'],['Operator','Self-serve'],['Route','Managed quote']], secondary:'Coffee plan' },
-          { name:"Eversys Enigma E'2ms Super Automatic Coffee Machine", badge:'Premium self-serve', price:'Quote required', image:'assets/E2MS.png', alt:"Eversys Enigma E'2ms", categories:['superauto','office'], monthly:'Up to 175 drinks/hour', specs:[['Best for','Hotels / offices'],['Operator','Self-serve'],['Route','Managed quote']], secondary:'Coffee plan' },
+          { name:"Eversys Enigma E'2ms Super Automatic Coffee Machine", badge:'Premium self-serve', price:'Quote required', image:'assets/E2MS.png', alt:"Eversys Enigma E'2ms", categories:['superauto','office'], monthly:'Up to 175 espresso or cappuccino/hour', specs:[['Best for','Hotels / offices'],['Operator','Self-serve'],['Route','Managed quote']], secondary:'Coffee plan' },
           { name:"Eversys Enigma E'4ms x-wide Super Automatic Coffee Machine", badge:'High volume', price:'Quote required', image:"assets/Eversys Enigma E'4ms x-wide.png", alt:"Eversys Enigma E'4ms x-wide", categories:['superauto','office'], monthly:'Up to 350 drinks/hour', specs:[['Best for','Enterprise / airports / hotels'],['Operator','Self-serve'],['Route','Tailored quote']], secondary:'Coffee plan' },
-          { name:"Eversys Legacy L'2m Super Automatic Coffee Machine", badge:'Flexible menu', price:'Quote required', image:"assets/Eversys Legacy L'2m.png", alt:"Eversys Legacy L'2m", categories:['superauto','office'], monthly:'Up to 175 drinks/hour', specs:[['Best for','Premium workplace'],['Operator','Self-serve'],['Route','Managed quote']], secondary:'Coffee plan' }
+          { name:"Eversys Legacy L'2m Super Automatic Coffee Machine", badge:'Flexible menu', price:'Quote required', image:"assets/Eversys Legacy L'2m.png", alt:"Eversys Legacy L'2m", categories:['superauto','office'], monthly:'Up to 175 espresso/hour', specs:[['Best for','Premium workplace'],['Operator','Self-serve'],['Route','Managed quote']], secondary:'Coffee plan' }
         ]
       },
       {
@@ -1018,7 +1045,7 @@
             ${product.monthly ? `<div class="monthly">${product.monthly}</div>` : ''}
             ${product.variant ? `<div class="variant-note">${product.variant}</div>` : ''}
             <div class="spec-list">${specs}</div>
-            <div class="product-actions"><a href="${product.url || '#quote'}" class="btn pink-btn">View buy or lease options</a><a href="#quote" class="btn secondary">Custom setup</a></div>
+            <div class="product-actions"><a href="${product.url || '#quote'}" class="btn pink-btn">View buy or lease options</a><a href="#quote" class="btn secondary" data-product-quote="${product.name}">Custom setup</a></div>
           </div>
         </article>`;
     }
@@ -1200,53 +1227,85 @@
 
     renderCatalogue();
 
+    /* Quote journey:
+       - any selected estimator/product setup -> show selected setup + Get my quote
+       - direct quote form with no selection -> qualification fields + Get my recommendation
+    */
+    const quoteForm=document.getElementById('quoteForm');
     const quoteContext=document.getElementById('quoteContext');
     const quoteContextTitle=document.getElementById('quoteContextTitle');
     const quoteContextDetails=document.getElementById('quoteContextDetails');
+    const quoteSubmitButton=document.getElementById('quoteSubmitButton');
+    const quoteDrinkers=document.getElementById('quoteDrinkers');
     const selectedSetupField=document.getElementById('selectedSetupField');
     const selectedMachineField=document.getElementById('selectedMachineField');
     const selectedDrinkersField=document.getElementById('selectedDrinkersField');
     const selectedCupsField=document.getElementById('selectedCupsField');
     const selectedBagsField=document.getElementById('selectedBagsField');
 
-    function setQuoteContext({setup='',machine='',details='',drinkers='',cups='',bags=''}){
+    function clearQuoteSelection(){
+      quoteForm?.classList.remove('has-selection');
+      quoteContext?.classList.remove('is-visible');
+      if(quoteContextTitle) quoteContextTitle.textContent='Setup selected';
+      if(quoteContextDetails) quoteContextDetails.textContent='';
+      if(selectedSetupField) selectedSetupField.value='';
+      if(selectedMachineField) selectedMachineField.value='';
+      if(selectedDrinkersField) selectedDrinkersField.value='';
+      if(selectedCupsField) selectedCupsField.value='';
+      if(selectedBagsField) selectedBagsField.value='';
+      if(quoteSubmitButton) quoteSubmitButton.textContent='Get my recommendation';
+    }
+
+    function setQuoteSelection({setup='',machine='',details='',drinkers='',cups='',bags=''}){
+      quoteForm?.classList.add('has-selection');
+      quoteContext?.classList.add('is-visible');
       if(quoteContextTitle) quoteContextTitle.textContent=setup || machine || 'Selected setup';
       if(quoteContextDetails) quoteContextDetails.textContent=details;
-      quoteContext?.classList.add('is-visible');
+      if(quoteDrinkers && drinkers) quoteDrinkers.value=String(drinkers).replace('+','');
       if(selectedSetupField) selectedSetupField.value=setup;
       if(selectedMachineField) selectedMachineField.value=machine;
       if(selectedDrinkersField) selectedDrinkersField.value=drinkers;
       if(selectedCupsField) selectedCupsField.value=cups;
       if(selectedBagsField) selectedBagsField.value=bags;
+      if(quoteSubmitButton) quoteSubmitButton.textContent='Get my quote';
     }
 
     document.getElementById('quoteRecommendedSetup')?.addEventListener('click',()=>{
       const d=Number(range.value);
       const daily=d*3;
       const bags=Math.ceil((daily*18*5/1000)*4.33);
-      setQuoteContext({
-        setup:machineTitle.textContent,
-        machine:machineRoute.textContent,
-        details:`${d>=200?'200+':d} coffee drinkers · ${daily>=600?'600+':daily} cups/day · ${bags>=234?'234+':bags} × 1kg bags/month · ${coffeePill.textContent} · ${servicePill.textContent}`,
+      const rec=recommendations.find(item=>d<=item.max);
+      setQuoteSelection({
+        setup:rec.title,
+        machine:rec.machine,
+        details:`${d>=200?'200+':d} coffee drinkers · ${daily>=600?'600+':daily} cups/day · ${bags>=234?'234+':bags} × 1kg bags/month · ${rec.coffee} · ${rec.service}`,
         drinkers:d>=200?'200+':d,
         cups:daily>=600?'600+':daily,
         bags:bags>=234?'234+':bags
       });
     });
 
-    // Carry a specific catalogue product into the quote form as well.
+    /* Any catalogue CTA that leads to #quote carries the product into the quote state. */
     document.addEventListener('click',(event)=>{
-      const quoteLink=event.target.closest('.product-card a[href="#quote"]');
-      if(!quoteLink) return;
-      const card=quoteLink.closest('.product-card');
+      const productQuote=event.target.closest('.product-card a[href="#quote"]');
+      if(!productQuote) return;
+      const card=productQuote.closest('.product-card');
       const productName=card?.querySelector('.product-title')?.textContent?.trim() || 'Catalogue product';
       const productPrice=card?.querySelector('.price')?.textContent?.trim() || '';
-      setQuoteContext({
-        setup:`Product enquiry: ${productName}`,
+      setQuoteSelection({
+        setup:productName,
         machine:productName,
-        details:productPrice ? `Current catalogue price: ${productPrice}. Moyee can confirm buy, lease and custom setup options.` : 'Moyee can confirm buy, lease and custom setup options.'
+        details:productPrice ? `${productName} · ${productPrice}` : productName
       });
     });
+
+    /* Every other #quote link is the open-ended recommendation journey. */
+    document.querySelectorAll('a[href="#quote"]').forEach((link)=>{
+      if(link.id==='quoteRecommendedSetup' || link.closest('.product-card')) return;
+      link.addEventListener('click',()=>clearQuoteSelection());
+    });
+
+    clearQuoteSelection();
 
     document.querySelectorAll('[data-filter-link]').forEach((link)=>{
       link.addEventListener('click',()=>{
