@@ -610,6 +610,46 @@
 .quote-selection p{margin:0;color:#444;line-height:1.55;}
 .quote-panel.has-selection [data-qualification-field]{display:none;}
 
+.quote-panel [data-tasting-field]{display:none;}
+.quote-panel.is-tasting [data-tasting-field]{display:grid;}
+
+
+/* Refined tasting actions */
+.tasting-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;}
+.tasting-pack-btn{background:#fff!important;color:var(--pink)!important;border:2px solid var(--pink)!important;}
+.tasting-pack-btn:hover{background:var(--pink)!important;color:#fff!important;}
+.tasting-coffee-btn{grid-column:1/-1;justify-self:center;min-width:240px;}
+.coffee-wholesale-note{margin-top:22px;background:#fff;border:2px solid var(--black);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:5px 5px 0 rgba(0,0,0,.10);}
+.coffee-wholesale-note strong{font-weight:900;}
+.coffee-wholesale-note span{font-size:13px;color:#444;text-align:right;}
+@media(max-width:640px){.tasting-actions{grid-template-columns:1fr;max-width:none}.tasting-coffee-btn{grid-column:auto;justify-self:stretch;min-width:0}.coffee-wholesale-note{display:grid}.coffee-wholesale-note span{text-align:left}}
+
+
+/* Product-page links + tasting secondary hover */
+.product-page-link{cursor:pointer;}
+.product-title-link{display:inline;color:inherit;transition:color var(--transition);}
+.product-title-link:hover{color:var(--pink);}
+.tasting-coffee-btn:hover{
+  background:var(--black)!important;
+  border-color:var(--black)!important;
+  color:#fff!important;
+}
+
+
+/* Formspree submission states */
+.form-status{
+  display:none;
+  margin:14px 0 0;
+  padding:13px 14px;
+  border:2px solid var(--black);
+  font-weight:800;
+  line-height:1.45;
+}
+.form-status.success{background:#fff;}
+.form-status.error{background:#fff;}
+.field-error{display:block;font-size:12px;margin-top:5px;font-weight:700;}
+#quoteSubmitButton:disabled{opacity:.65;cursor:wait;transform:none;}
+
 </style>
 </head>
 <body>
@@ -643,7 +683,7 @@
           <a class="route-card reveal" href="#finder"><strong>I do not know what we need</strong><span>Use the scale to estimate volume and machine tier.</span></a>
           <a class="route-card reveal" href="#machines"><strong>I want the catalogue</strong><span>Browse machines by office, hospitality and high volume.</span></a>
           <a class="route-card reveal" href="#lease"><strong>I want to lease</strong><span>Ask about monthly machine, coffee and support packages.</span></a>
-          <a class="route-card reveal" href="#coffee"><strong>We need coffee supply</strong><span>Estimate monthly kg and choose office-friendly blends.</span></a>
+          <a class="route-card reveal" href="#coffee"><strong>We need coffee supply</strong><span>Estimate your monthly coffee supply and choose office-friendly blends.</span></a>
           <a class="route-card reveal" href="#trial"><strong>We want to taste first</strong><span>Start with a low-friction office tasting pack.</span></a>
           <a class="route-card reveal" href="#barista"><strong>We need barista service</strong><span>For offices, client events, launches and activations.</span></a>
           <a class="route-card reveal" href="#quote"><strong>I need a custom quote</strong><span>For multi-site, café, hospitality or managed setups.</span></a>
@@ -658,17 +698,17 @@
           <div class="slider-card">
             <div class="slider-label">Number of coffee drinkers</div>
             <div class="slider-top"><div class="big-number" id="drinkersValue">20</div><div class="slider-label">people</div></div>
-            <input id="drinkersRange" type="range" min="5" max="200" value="20" step="5" />
-            <div class="scale-row" aria-hidden="true"><span style="left:0%">5</span><span style="left:7.7%">20</span><span style="left:23.1%">50</span><span style="left:48.7%">100</span><span style="left:100%">200+</span></div>
-            <p class="calc-assumptions">Assumption: 3 cups per coffee drinker per day, 18g per cup, 5 working days per week. We can adjust the quote for lower-use hybrid teams, heavier coffee cultures, cafés, or event-led demand.</p>
+            <input id="drinkersRange" type="range" min="0" max="210" value="20" step="1" />
+            <div class="scale-row" aria-hidden="true"><span style="left:0%">0</span><span style="left:23.8%">50</span><span style="left:47.6%">100</span><span style="left:71.4%">150</span><span style="left:95.2%">200+</span></div>
+            <p class="calc-assumptions">Estimate based on coffee usage across similar-sized hybrid workplaces. Every team drinks differently, so we’ll confirm the right coffee volume with you before finalising your setup.</p>
             <div class="direct-note" id="quickRecommendationNote">For this size, quote a growing-office setup first: Jura X10 + Triple Blend supply + lease or buy option.</div>
           </div>
           <div class="result-card">
             <div class="result-grid">
-              <div class="metric"><span>Cups / day</span><strong id="cupsDay">60</strong></div>
-              <div class="metric"><span>1kg bags / month</span><strong id="bagsMonth">12</strong></div>
+              <div class="metric"><span>Coffee cases / month</span><strong id="casesMonth">1 case</strong></div>
+              <div class="metric"><span>Estimated coffee / month</span><strong id="coffeeKgMonth">8kg</strong></div>
               <div class="metric"><span>Delivery rhythm</span><strong id="deliveryInterval">Monthly</strong></div>
-              <div class="metric"><span>Service level</span><strong id="serviceLevel">Annual</strong></div>
+              <div class="metric"><span>Recommended servicing</span><strong id="serviceLevel">Annual service check</strong></div>
             </div>
 
             <div class="advisor-card">
@@ -684,9 +724,9 @@
                 <div><span>Machine</span><strong id="machineRoute">Jura X10</strong></div>
                 <div><span>Operator</span><strong id="operatorNeeded">Self-serve</strong></div>
                 <div><span>Coffee</span><strong id="coffeePill">Triple Blend</strong></div>
-                <div><span>Service</span><strong id="servicePill">Bi-annual check</strong></div>
+                <div><span>Recommended servicing</span><strong id="servicePill">Bi-annual preventative maintenance</strong></div>
               </div>
-              <div class="compact-note"><strong id="bagsDetail">12 bags / month</strong><span id="directNote">Quote: Jura X10 + recurring coffee supply + buy or lease option.</span></div>
+              <div class="compact-note"><strong id="casesDetail">1 case / month · 8kg</strong><span id="directNote">Quote: Jura X10 + recurring coffee supply + buy or lease option.</span></div>
               <div class="advisor-actions"><a href="#quote" class="btn pink-btn" id="quoteRecommendedSetup">Quote this setup</a><a href="#machines" class="btn secondary">View catalogue</a></div>
             </div>
 
@@ -708,12 +748,16 @@
     <section id="trial" class="trial-section">
       <div class="container trial-panel reveal">
         <div>
-          <div class="eyebrow">Low-friction first step</div><h2>Not ready for a machine quote? Start with the coffee.</h2>
-          <p class="hero-copy">An office tasting pack gives the team a way to taste Moyee before committing to a machine, lease or managed package. This is the softer CTA for lower-intent B2B visitors.</p>
-          <div class="cta-row"><a href="https://moyeecoffee.ie/collections/bundles/products/moyee-coffee-taster-pack" class="btn pink-btn">Request tasting pack</a><a href="#coffee" class="btn secondary">View office coffees</a></div>
+          <div class="eyebrow">Low-friction first step</div><h2>Not ready to choose your setup? Start with the coffee.</h2>
+          <p class="hero-copy">Taste Moyee with your team before deciding on a machine or coffee setup. Order a four-coffee tasting pack to your workplace, or arrange a guided tasting with us.</p>
+          <div class="cta-row tasting-actions"><a href="https://moyeecoffee.ie/collections/bundles/products/moyee-coffee-taster-pack" class="btn tasting-pack-btn">Request tasting pack</a><a href="#quote" class="btn pink-btn" data-tasting-request>Arrange a tasting</a><a href="#coffee" class="btn secondary tasting-coffee-btn">View office coffees</a></div>
         </div>
         <div class="trial-list">
-          <div>3–4 Moyee blends for office tasting</div><div>Whole bean, filter or espresso grind options</div><div>Delivered to your workplace</div><div>Follow-up machine and coffee supply recommendation</div><div>Placeholder: from €X for the trial pack</div>
+          <div><strong>4 Moyee coffees to try</strong><br>Dark Roast, Single Origin, Double Origin and Triple Blend.</div>
+          <div><strong>Whole bean or ground</strong><br>Choose the format that works with your current coffee setup.</div>
+          <div><strong>Delivered to your workplace</strong><br>An easy way to get the team involved before making a decision.</div>
+          <div><strong>Prefer a guided tasting?</strong><br>We can run the tasting with your team at your workplace or at Moyee in Dublin 7.</div>
+          <div><strong>What happens next?</strong><br>We can follow up with a machine and coffee supply recommendation based on your workplace.</div>
         </div>
       </div>
     </section>
@@ -757,7 +801,7 @@
               <div class="level-meter"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
               <p class="level-hint">Best default for mixed office teams.</p>
             </div>
-            <div class="coffee-meta"><span>High intensity</span><span>€[confirm]/kg</span></div>
+            <div class="coffee-meta"><span>High intensity</span></div>
           </article>
           <article class="coffee-card reveal">
             <div class="coffee-img"><img src="assets/double-blend.png" alt="Double Blend coffee" loading="lazy" /></div>
@@ -769,7 +813,7 @@
               <div class="level-meter"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div>
               <p class="level-hint">Easy daily drinker for most setups.</p>
             </div>
-            <div class="coffee-meta"><span>Balanced</span><span>€[confirm]/kg</span></div>
+            <div class="coffee-meta"><span>Balanced</span></div>
           </article>
           <article class="coffee-card reveal">
             <div class="coffee-img"><img src="assets/dark-roast.png" alt="Dark Roast coffee" loading="lazy" /></div>
@@ -781,7 +825,7 @@
               <div class="level-meter"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
               <p class="level-hint">Best for stronger milk drinks and bold cups.</p>
             </div>
-            <div class="coffee-meta"><span>Strong</span><span>€[confirm]/kg</span></div>
+            <div class="coffee-meta"><span>Strong</span></div>
           </article>
           <article class="coffee-card reveal">
             <div class="coffee-img"><img src="assets/single-origin.png" alt="Single Origin coffee" loading="lazy" /></div>
@@ -793,7 +837,7 @@
               <div class="level-meter"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></div>
               <p class="level-hint">Better for flavour-led drinkers and tasting moments.</p>
             </div>
-            <div class="coffee-meta"><span>Refined</span><span>€[confirm]/kg</span></div>
+            <div class="coffee-meta"><span>Refined</span></div>
           </article>
           <article class="coffee-card reveal">
             <div class="coffee-img"><img src="assets/microlot.png" alt="Microlot coffee" loading="lazy" /></div>
@@ -805,9 +849,10 @@
               <div class="level-meter"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div>
               <p class="level-hint">Premium option for special cups and client stories.</p>
             </div>
-            <div class="coffee-meta"><span>Limited</span><span>€[confirm]/kg</span></div>
+            <div class="coffee-meta"><span>Limited</span></div>
           </article>
         </div>
+        <div class="coffee-wholesale-note reveal"><strong>Workplace & wholesale coffee</strong><span>Contact us for workplace and wholesale pricing tailored to your coffee volume.</span></div>
       </div>
     </section>
 
@@ -817,7 +862,7 @@
         <p class="reveal" style="color:rgba(255,255,255,.68);margin:-8px 0 26px;max-width:760px;">Hover to preview. Click a card to select the route you want to discuss. Only the selected option stays highlighted.</p>
         <div class="package-grid">
           <article class="package-card reveal" data-package="buy" tabindex="0" role="button" aria-pressed="false"><h3>Buy outright</h3><div class="package-price">Machine price <span>+ coffee from €[confirm]/kg</span></div><p>Best for businesses that want to own the machine and add Moyee as their coffee supplier.</p><ul><li>Upfront machine purchase</li><li>Monthly Moyee coffee supply</li><li>Optional service and maintenance</li><li>Optional events, tastings and training</li></ul><a href="#machines" class="mini-link">View catalogue →</a></article>
-          <article class="package-card reveal" data-package="lease" tabindex="0" role="button" aria-pressed="false"><h3>Lease / rental package</h3><div class="package-price">From €[confirm]/month <span>machine package</span></div><p>Best for offices that want lower upfront cost and predictable monthly planning.</p><ul><li>Machine lease or rental route</li><li>Coffee supply forecast from the slider</li><li>Service and maintenance options</li><li>Upgrade path as the team grows</li></ul><a href="#quote" class="mini-link">Ask about leasing →</a></article>
+          <article class="package-card reveal" data-package="lease" tabindex="0" role="button" aria-pressed="false"><h3>Lease package</h3><div class="package-price">From €[confirm]/month <span>machine package</span></div><p>Best for offices that want lower upfront cost and predictable monthly planning.</p><ul><li>Machine lease</li><li>Coffee supply forecast from the slider</li><li>Service and maintenance options</li><li>Upgrade path as the team grows</li></ul><a href="#quote" class="mini-link">Ask about leasing →</a></article>
           <article class="package-card reveal" data-package="managed" tabindex="0" role="button" aria-pressed="false"><h3>Managed coffee solution</h3><div class="package-price">From €[confirm]/month <span>machine + coffee + service</span></div><p>Best for larger offices, multi-site teams, hospitality and ESG-led procurement.</p><ul><li>Machine recommendation</li><li>Monthly coffee supply</li><li>Maintenance and account support</li><li>Barista service, tastings, activations or training where needed</li></ul><a href="#quote" class="mini-link">Build custom setup →</a></article>
         </div>
       </div>
@@ -875,8 +920,8 @@
         <div class="section-head reveal"><div><div class="eyebrow">FAQs</div><h2>Questions businesses ask before choosing.</h2></div></div>
         <div class="faq-grid">
           <div class="faq-item reveal open"><div class="faq-question">How do I know which machine my office needs? <span>+</span></div><div class="faq-answer">Start with the number of coffee drinkers and likely cups per day. The setup finder gives a practical guide, then Moyee can confirm the right machine, coffee supply and support package.</div></div>
-          <div class="faq-item reveal"><div class="faq-question">Can we lease instead of buying outright? <span>+</span></div><div class="faq-answer">Yes. The page supports outright purchase, lease or rental package quotes, and managed solutions where machine, coffee supply, support and service are discussed together.</div></div>
-          <div class="faq-item reveal"><div class="faq-question">Can Moyee supply the coffee too? <span>+</span></div><div class="faq-answer">Yes. Coffee supply can be added to any machine setup. The calculator helps estimate monthly kg so the quote can include the right amount of Moyee FairChain coffee.</div></div>
+          <div class="faq-item reveal"><div class="faq-question">Can we lease instead of buying outright? <span>+</span></div><div class="faq-answer">Yes. The page supports outright purchase, lease package quotes, and managed solutions where machine, coffee supply, support and service are discussed together.</div></div>
+          <div class="faq-item reveal"><div class="faq-question">Can Moyee supply the coffee too? <span>+</span></div><div class="faq-answer">Yes. Coffee supply can be added to any machine setup. The calculator gives a practical monthly case estimate so the quote can include the right amount of Moyee FairChain coffee.</div></div>
           <div class="faq-item reveal"><div class="faq-question">Do you support events, activations, tastings and training? <span>+</span></div><div class="faq-answer">Yes. Moyee can support client events, corporate activations, ESG and sustainability initiatives, tree planting moments, tastings, product demos and coffee/barista training. These can be quoted separately or added to a managed coffee solution.</div></div>
           <div class="faq-item reveal"><div class="faq-question">What if we only want to taste the coffee first? <span>+</span></div><div class="faq-answer">Use the tasting pack route. It is a lower-friction way to introduce Moyee coffee to the team before committing to a machine, lease package or managed supply setup.</div></div>
           <div class="faq-item reveal"><div class="faq-question">What if our team size changes? <span>+</span></div><div class="faq-answer">Moyee can recommend a setup based on current usage and advise when it makes sense to upgrade machine tier, adjust coffee supply or add support.</div></div>
@@ -886,8 +931,8 @@
 
     <section id="quote" class="quote">
       <div class="container quote-grid">
-        <div class="reveal"><div class="eyebrow">Tell us your setup</div><h2>No procurement essay. Tell us the basics and we’ll recommend the route.</h2><p class="hero-copy">Office managers should not need to know the model number, grinder settings or monthly kg before contacting Moyee. This form only asks enough to recommend the right machine, coffee supply and service option.</p><div class="quote-promise"><span>Promise:</span> Moyee replies with a practical recommendation: machine tier, coffee supply estimate, buy/lease/managed route and any tasting, demo, event or training option that fits.</div><div class="contact-options"><div class="contact-card"><strong>Call Moyee Ireland</strong><span>(01) 531 4775 · Mon–Fri</span></div><div class="contact-card"><strong>Email</strong><span>hello@moyeecoffee.ie · Response within one business day</span></div><div class="contact-card"><strong>Start softer</strong><span>Ask for a tasting pack or product demo before choosing a machine.</span></div></div></div>
-        <form class="quote-panel reveal" id="quoteForm">
+        <div class="reveal"><div class="eyebrow">Tell us your setup</div><h2>No procurement essay. Tell us the basics and we’ll recommend the route.</h2><p class="hero-copy">Office managers should not need to know the model number, grinder settings or monthly kg before contacting Moyee. This form only asks enough to recommend the right machine, coffee supply and service option.</p><div class="quote-promise"><span>Promise:</span> Moyee replies with a practical recommendation: machine tier, coffee supply estimate, buy/lease/managed route and any tasting, demo, event or training option that fits.</div><div class="contact-options"><div class="contact-card"><strong>Call Moyee Ireland</strong><span>(01) 531 4775 · Mon–Fri</span></div><div class="contact-card"><strong>Visit us in Dublin 7</strong><span>Come by the Moyee office for a coffee, machine conversation or arranged tasting.</span></div><div class="contact-card"><strong>Email</strong><span>hello@moyeecoffee.ie · Response within one business day</span></div><div class="contact-card"><strong>Start softer</strong><span>Ask for a tasting pack or product demo before choosing a machine.</span></div></div></div>
+        <form class="quote-panel reveal" id="quoteForm" action="https://formspree.io/f/xdeoygpq" method="POST">
           <div class="quote-context" id="quoteContext" aria-live="polite">
             <div class="eyebrow">Your selected setup</div>
             <strong id="quoteContextTitle">Setup selected</strong>
@@ -896,9 +941,24 @@
           <input type="hidden" name="selected_setup" id="selectedSetupField" />
           <input type="hidden" name="selected_machine" id="selectedMachineField" />
           <input type="hidden" name="estimated_coffee_drinkers" id="selectedDrinkersField" />
-          <input type="hidden" name="estimated_cups_per_day" id="selectedCupsField" />
-          <input type="hidden" name="estimated_1kg_bags_per_month" id="selectedBagsField" />
-          <div class="form-grid"><label>Company name<input type="text" placeholder="Company Ltd." /></label><label>Your name<input type="text" placeholder="Name" /></label><label>Email<input type="email" placeholder="you@company.com" /></label><label>Phone<input type="tel" placeholder="+353" /></label><label data-qualification-field>Number of coffee drinkers<input id="quoteDrinkers" type="number" min="1" placeholder="e.g. 35" /></label><label data-qualification-field>Interested in<select id="quoteInterest"><option>Not sure yet</option><option>Buy a machine outright</option><option>Lease / rental package</option><option>Managed coffee solution</option><option>Coffee supply only</option><option>Office tasting pack</option><option>Product demo</option><option>Client event / corporate activation</option><option>ESG / sustainability initiative</option><option>Training</option></select></label><label class="full">Message<textarea id="quoteMessage" placeholder="Tell us what you need: office coffee, machine, supply, lease, event, tasting, product demo, tree planting, training or timeline..."></textarea></label></div><button class="btn pink-btn" id="quoteSubmitButton" type="button">Get my recommendation</button></form>
+          <input type="hidden" name="estimated_cases_per_month" id="selectedCasesField" />
+          <input type="hidden" name="estimated_coffee_kg_per_month" id="selectedKgField" />
+          <input type="hidden" name="enquiry_route" id="enquiryRouteField" value="Direct B2B enquiry" />
+          <input type="hidden" name="source_page" value="Moyee B2B machines page" />
+          <div class="form-grid">
+            <label>Company name<input type="text" name="company_name" placeholder="Company Ltd." autocomplete="organization" required data-fs-field /></label>
+            <label>Your name<input type="text" name="contact_name" placeholder="Name" autocomplete="name" required data-fs-field /></label>
+            <label>Email<input type="email" name="email" placeholder="you@company.com" autocomplete="email" required data-fs-field /><span class="field-error" data-fs-error="email"></span></label>
+            <label>Phone<input type="tel" name="phone" placeholder="+353" autocomplete="tel" data-fs-field /></label>
+            <label data-qualification-field>Number of coffee drinkers<input id="quoteDrinkers" name="coffee_drinkers" type="number" min="1" placeholder="e.g. 35" data-fs-field /></label>
+            <label data-qualification-field>Interested in<select id="quoteInterest" name="interest" data-fs-field><option>Not sure yet</option><option>Buy a machine outright</option><option>Lease package</option><option>Managed coffee solution</option><option>Coffee supply only</option><option>Office tasting pack</option><option>Office tasting</option><option>Product demo</option><option>Client event / corporate activation</option><option>ESG / sustainability initiative</option><option>Training</option></select></label>
+            <label class="full tasting-location-field" data-tasting-field>Tasting location<select id="tastingLocation" name="tasting_location" data-fs-field><option value="">Choose a location</option><option>At our workplace</option><option>Moyee office, Dublin 7</option></select></label>
+            <label class="full">Message<textarea id="quoteMessage" name="message" placeholder="Tell us what you need: office coffee, machine, supply, lease, event, tasting, product demo, tree planting, training or timeline..." data-fs-field></textarea></label>
+          </div>
+          <div class="form-status success" data-fs-success role="status" aria-live="polite">Thanks — your enquiry is with us. One of the Moyee team will be in touch about your workplace setup.</div>
+          <div class="form-status error" data-fs-error role="alert" aria-live="assertive">Something went wrong sending your enquiry. Please try again, call us, or email hello@moyeecoffee.ie.</div>
+          <button class="btn pink-btn" id="quoteSubmitButton" type="submit" data-fs-submit-btn>Get my recommendation</button>
+        </form>
       </div>
     </section>
   </main>
@@ -913,22 +973,36 @@
     const revealObserver=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target)}})},{threshold:.12});
     document.querySelectorAll('.reveal').forEach((el)=>revealObserver.observe(el));
 
-    const range=document.getElementById('drinkersRange'),drinkersValue=document.getElementById('drinkersValue'),cupsDay=document.getElementById('cupsDay'),bagsMonth=document.getElementById('bagsMonth'),deliveryInterval=document.getElementById('deliveryInterval'),serviceLevel=document.getElementById('serviceLevel'),quickRecommendationNote=document.getElementById('quickRecommendationNote'),machineTitle=document.getElementById('machineTitle'),machineCopy=document.getElementById('machineCopy'),machineRoute=document.getElementById('machineRoute'),operatorNeeded=document.getElementById('operatorNeeded'),tierPill=document.getElementById('tierPill'),coffeePill=document.getElementById('coffeePill'),servicePill=document.getElementById('servicePill'),bagsDetail=document.getElementById('bagsDetail'),alternativeTitle=document.getElementById('alternativeTitle'),alternativeCopy=document.getElementById('alternativeCopy'),espressoMachine=document.getElementById('espressoMachine'),espressoOperator=document.getElementById('espressoOperator'),espressoSupport=document.getElementById('espressoSupport'),directNote=document.getElementById('directNote');
+    const range=document.getElementById('drinkersRange'),drinkersValue=document.getElementById('drinkersValue'),casesMonth=document.getElementById('casesMonth'),coffeeKgMonth=document.getElementById('coffeeKgMonth'),deliveryInterval=document.getElementById('deliveryInterval'),serviceLevel=document.getElementById('serviceLevel'),quickRecommendationNote=document.getElementById('quickRecommendationNote'),machineTitle=document.getElementById('machineTitle'),machineCopy=document.getElementById('machineCopy'),machineRoute=document.getElementById('machineRoute'),operatorNeeded=document.getElementById('operatorNeeded'),tierPill=document.getElementById('tierPill'),coffeePill=document.getElementById('coffeePill'),servicePill=document.getElementById('servicePill'),casesDetail=document.getElementById('casesDetail'),alternativeTitle=document.getElementById('alternativeTitle'),alternativeCopy=document.getElementById('alternativeCopy'),espressoMachine=document.getElementById('espressoMachine'),espressoOperator=document.getElementById('espressoOperator'),espressoSupport=document.getElementById('espressoSupport'),directNote=document.getElementById('directNote');
 
     const recommendations=[
-      {max:20,title:'Jura W8 Small Office Coffee Setup',machine:'Jura W8',operator:'Self-serve, no barista required',tier:'Small office',route:'Buy or lease',coffee:'Double or Triple Blend',service:'Annual service check',delivery:'Monthly',copy:'Fresh bean coffee, one-touch drinks and simple monthly supply for small teams. No barista required.',note:'Quote: Jura W8 + 6–24 bags/month + monthly delivery + annual service check.',altTitle:'Office espresso route',altCopy:'If your office has trained staff or hosts client coffee moments, a compact espresso setup can make sense.',espressoMachine:'Zoe Compact / Appia Life Compact',espressoOperator:'Trained staff or Moyee barista',espressoSupport:'Training + event barista available'},
-      {max:50,title:'Jura X10 Growing Team Coffee Setup',machine:'Jura X10',operator:'Self-serve, no barista required',tier:'Growing office',route:'Buy, lease or managed',coffee:'Triple Blend supply',service:'Bi-annual preventative maintenance',delivery:'Every 2 weeks',copy:'Self-serve office coffee with milk drinks, recurring Moyee supply and a simple support rhythm.',note:'Quote: Jura X10 + 24–59 bags/month + fortnightly delivery + bi-annual service.',altTitle:'Office espresso route',altCopy:'For offices with a coffee station, reception area or trained team member, espresso can create a more premium experience.',espressoMachine:'Zoe Compact / Appia Life XT / Sanremo D8',espressoOperator:'Trained staff or Moyee barista',espressoSupport:'Grinder + training + events'},
-      {max:100,title:'GIGA Range Large Workplace Setup',machine:'Jura GIGA X3c / GIGA X8c',operator:'Self-serve or managed office use',tier:'Large workplace',route:'Managed quote',coffee:'Monthly FairChain coffee plan',service:'Quarterly servicing advised',delivery:'Weekly or every 2 weeks',copy:'Higher-capacity self-serve coffee with delivery forecasting, account support and planned maintenance.',note:'Quote: GIGA X3c/X8c + 59–117 bags/month + weekly or fortnightly delivery + quarterly service.',altTitle:'Premium office espresso route',altCopy:'For customer-facing floors, lounges or offices with trained staff, an espresso setup can sit alongside bean-to-cup.',espressoMachine:'Appia Life XT / Aurelia Vol XT / Sanremo D8',espressoOperator:'Trained staff or Moyee barista',espressoSupport:'Training + barista service + supply'},
-      {max:999,title:'Enterprise or Premium Specialty Coffee Setup',machine:'GIGA X8c, Eversys or premium espresso setup',operator:'Self-serve, managed or trained barista',tier:'Enterprise / specialty',route:'Tailored quote',coffee:'117kg+ FairChain supply plan',service:'Managed service programme',delivery:'Weekly',copy:'Treat this as a tailored setup: high-volume self-serve, Eversys, or premium espresso with grinder and training.',note:'Quote: enterprise office setup or premium espresso setup + grinder + FairChain supply + training.',altTitle:'Premium espresso machine route',altCopy:'For offices that want a café-style experience, shortlist premium espresso machines with grinder and barista support.',espressoMachine:'Linea PB / Eagle One / Black Eagle / Aurelia Wave T3 / Café Racer',espressoOperator:'Dedicated barista, trained staff or Moyee service',espressoSupport:'Barista training + event support'}
+      {max:20,title:'Jura W8 Small Office Coffee Setup',machine:'Jura W8',operator:'Self-serve, no barista required',tier:'Small office',route:'Buy or lease',coffee:'Double or Triple Blend',service:'Annual service check recommended',delivery:'Monthly',copy:'Fresh bean coffee, one-touch drinks and simple monthly supply for small teams. No barista required.',note:'Quote: Jura W8 + estimated monthly coffee case + monthly delivery. Servicing can be added separately.',altTitle:'Office espresso route',altCopy:'If your office has trained staff or hosts client coffee moments, a compact espresso setup can make sense.',espressoMachine:'Zoe Compact / Appia Life Compact',espressoOperator:'Trained staff or Moyee barista',espressoSupport:'Training + event barista available'},
+      {max:50,title:'Jura X10 Growing Team Coffee Setup',machine:'Jura X10',operator:'Self-serve, no barista required',tier:'Growing office',route:'Buy, lease or managed',coffee:'Triple Blend supply',service:'Bi-annual preventative maintenance recommended',delivery:'Monthly',copy:'Self-serve office coffee with milk drinks, recurring Moyee supply and a simple support rhythm.',note:'Quote: Jura X10 + estimated monthly coffee case + monthly delivery. Servicing can be added separately.',altTitle:'Office espresso route',altCopy:'For offices with a coffee station, reception area or trained team member, espresso can create a more premium experience.',espressoMachine:'Zoe Compact / Appia Life XT / Sanremo D8',espressoOperator:'Trained staff or Moyee barista',espressoSupport:'Grinder + training + events'},
+      {max:100,title:'GIGA Range Large Workplace Setup',machine:'Jura GIGA X3c / GIGA X8c',operator:'Self-serve or managed office use',tier:'Large workplace',route:'Managed quote',coffee:'Monthly FairChain coffee plan',service:'Quarterly servicing recommended',delivery:'Monthly',copy:'Higher-capacity self-serve coffee with delivery forecasting, account support and planned maintenance.',note:'Quote: GIGA X3c/X8c + estimated monthly coffee cases + monthly delivery. Servicing can be added separately.',altTitle:'Premium office espresso route',altCopy:'For customer-facing floors, lounges or offices with trained staff, an espresso setup can sit alongside bean-to-cup.',espressoMachine:'Appia Life XT / Aurelia Vol XT / Sanremo D8',espressoOperator:'Trained staff or Moyee barista',espressoSupport:'Training + barista service + supply'},
+      {max:999,title:'Enterprise or Premium Specialty Coffee Setup',machine:'GIGA X8c, Eversys or premium espresso setup',operator:'Self-serve, managed or trained barista',tier:'Enterprise / specialty',route:'Tailored quote',coffee:'FairChain coffee case plan',service:'Managed service programme recommended',delivery:'Twice monthly',copy:'Treat this as a tailored setup: high-volume self-serve, Eversys, or premium espresso with grinder and training.',note:'Quote: enterprise office setup or premium espresso setup + FairChain coffee supply. Recommended servicing is quoted separately.',altTitle:'Premium espresso machine route',altCopy:'For offices that want a café-style experience, shortlist premium espresso machines with grinder and barista support.',espressoMachine:'Linea PB / Eagle One / Black Eagle / Aurelia Wave T3 / Café Racer',espressoOperator:'Dedicated barista, trained staff or Moyee service',espressoSupport:'Barista training + event support'}
     ];
 
+    function coffeeCaseEstimate(drinkers){
+      if(drinkers<=0) return {cases:0,kg:0,label:'0 cases',kgLabel:'0kg'};
+      if(drinkers<=50) return {cases:1,kg:8,label:'1 case',kgLabel:'8kg'};
+      if(drinkers<=100) return {cases:2,kg:16,label:'2 cases',kgLabel:'16kg'};
+      if(drinkers<=150) return {cases:3,kg:24,label:'3 cases',kgLabel:'24kg'};
+      if(drinkers<=200) return {cases:4,kg:32,label:'4 cases',kgLabel:'32kg'};
+      return {cases:'5+',kg:'40+',label:'5+ cases',kgLabel:'40kg+'};
+    }
+
     function updateCalculator(){
-      const d=Number(range.value),daily=d*3,weekly=daily*18*5/1000,monthly=weekly*4.33,bags=Math.ceil(monthly),rec=recommendations.find(item=>d<=item.max),progress=((d-Number(range.min))/(Number(range.max)-Number(range.min)))*100;
+      const d=Number(range.value);
+      const estimate=coffeeCaseEstimate(d);
+      const rec=recommendations.find(item=>d<=item.max) || recommendations[recommendations.length-1];
+      const progress=((d-Number(range.min))/(Number(range.max)-Number(range.min)))*100;
+      const delivery=d>200?'Twice monthly':'Monthly';
+
       range.style.setProperty('--range-progress',progress+'%');
-      drinkersValue.textContent=d>=200?'200+':d;
-      cupsDay.textContent=daily>=600?'600+':daily;
-      bagsMonth.textContent=bags>=234?'234+':bags;
-      deliveryInterval.textContent=rec.delivery;
+      drinkersValue.textContent=d>200?'200+':d;
+      casesMonth.textContent=estimate.label;
+      coffeeKgMonth.textContent=estimate.kgLabel;
+      deliveryInterval.textContent=delivery;
       serviceLevel.textContent=rec.service;
       quickRecommendationNote.textContent=rec.note;
       machineTitle.textContent=rec.title;
@@ -938,7 +1012,7 @@
       tierPill.textContent=rec.tier;
       coffeePill.textContent=rec.coffee;
       servicePill.textContent=rec.service;
-      bagsDetail.textContent=(bags>=234?'234+':bags)+' bags / month';
+      casesDetail.textContent=`${estimate.label} / month · ${estimate.kgLabel}`;
       alternativeTitle.textContent=rec.altTitle;
       alternativeCopy.textContent=rec.altCopy;
       espressoMachine.textContent=rec.espressoMachine;
@@ -961,10 +1035,10 @@
         title: 'Office bean-to-cup machines',
         intro: 'Best for workplaces that want good coffee without a trained barista.',
         products: [
-          { name:'Jura W8', badge:'Small office', price:'€2,456.00', image:'https://moyeecoffee.ie/cdn/shop/files/w8_ea_darkinox_packshot_5000x.jpg?v=1773413795', alt:'Jura W8 professional coffee machine', categories:['office'], monthly:'Lease guide: from €[confirm]/month', specs:[['Best for','5–20 people'],['Coffee guide','6–24kg/month'],['Route','Buy / lease / supply']], secondary:'Taste first' },
-          { name:'Jura X10 Dark Inox', badge:'Growing team', price:'€3,358.00', image:'https://moyeecoffee.ie/cdn/shop/files/Website_Overview_X10_DaIn_pss2_900x990px_5000x.jpg?v=1773413550', alt:'Jura X10 Dark Inox professional coffee machine', categories:['office'], monthly:'Lease guide: from €[confirm]/month', specs:[['Best for','20–50 people'],['Coffee guide','24–59kg/month'],['Route','Buy / lease / managed']], secondary:'Taste first' },
-          { name:'Jura GIGA X3c', badge:'50+ offices', price:'€5,908.00', image:'https://moyeecoffee.ie/cdn/shop/files/big_giga_x3c_g2_alu_5000x.jpg?v=1773413073', alt:'Jura GIGA X3c professional coffee machine', categories:['office'], monthly:'Managed guide: from €[confirm]/month', specs:[['Best for','50–100 people'],['Coffee guide','59–117kg/month'],['Route','Managed quote']], secondary:'Coffee plan' },
-          { name:'Jura GIGA X8c', badge:'100+ offices', price:'€7,808.00', image:'https://moyeecoffee.ie/cdn/shop/files/big_x8c_g2_alublack_cee42817-fa10-42e3-a164-623b747340ab_2000x.jpg?v=1773412564', alt:'Jura GIGA X8c professional coffee machine', categories:['office'], monthly:'Enterprise guide: quote required', specs:[['Best for','100+ people'],['Coffee guide','117kg+/month'],['Route','Tailored quote']], secondary:'Events' }
+          { name:'Jura W8', url:'https://moyeecoffee.ie/collections/bean-to-cup-machines/products/jura-w8', badge:'Small office', price:'€2,456.00 · Including VAT', image:'https://moyeecoffee.ie/cdn/shop/files/w8_ea_darkinox_packshot_5000x.jpg?v=1773413795', alt:'Jura W8 professional coffee machine', categories:['office'], monthly:'Lease guide: from €[confirm]/month', specs:[['Best for','5–20 people'],['Coffee guide','1 case/month · 8kg'],['Route','Buy / lease / supply']], secondary:'Taste first' },
+          { name:'Jura X10 Dark Inox', url:'https://moyeecoffee.ie/collections/bean-to-cup-machines/products/jura-x10-dark-inox', badge:'Growing team', price:'€3,358.00 · Including VAT', image:'https://moyeecoffee.ie/cdn/shop/files/Website_Overview_X10_DaIn_pss2_900x990px_5000x.jpg?v=1773413550', alt:'Jura X10 Dark Inox professional coffee machine', categories:['office'], monthly:'Lease guide: from €[confirm]/month', specs:[['Best for','20–50 people'],['Coffee guide','1 case/month · 8kg'],['Route','Buy / lease / managed']], secondary:'Taste first' },
+          { name:'Jura GIGA X3c', url:'https://moyeecoffee.ie/collections/bean-to-cup-machines/products/jura-giga-x3c', badge:'50+ offices', price:'€5,908.00 · Including VAT', image:'https://moyeecoffee.ie/cdn/shop/files/big_giga_x3c_g2_alu_5000x.jpg?v=1773413073', alt:'Jura GIGA X3c professional coffee machine', categories:['office'], monthly:'Managed guide: from €[confirm]/month', specs:[['Best for','50–100 people'],['Coffee guide','1–2 cases/month · 8–16kg'],['Route','Managed quote']], secondary:'Coffee plan' },
+          { name:'Jura GIGA X8c', url:'https://moyeecoffee.ie/collections/bean-to-cup-machines/products/jura-giga-x8c', badge:'100+ offices', price:'€7,808.00 · Including VAT', image:'https://moyeecoffee.ie/cdn/shop/files/big_x8c_g2_alublack_cee42817-fa10-42e3-a164-623b747340ab_2000x.jpg?v=1773412564', alt:'Jura GIGA X8c professional coffee machine', categories:['office'], monthly:'Enterprise guide: quote required', specs:[['Best for','100+ people'],['Coffee guide','2–5+ cases/month · 16–40kg+'],['Route','Tailored quote']], secondary:'Events' }
         ]
       },
       {
@@ -983,8 +1057,8 @@
         title: 'Entry espresso machines',
         intro: 'Compact professional machines for smaller cafés, bakeries, restaurants and office coffee bars with trained staff.',
         products: [
-          { name:'Nuova Simonelli Appia Life Compact', badge:'Compact bar', price:'€4,300', image:'assets/APPIA LIFE COMPACT.jpg', alt:'Nuova Simonelli Appia Life Compact', categories:['entry'], monthly:'Compact hospitality setup', specs:[['Best for','Smaller cafés'],['Type','Compact espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
-          { name:'Sanremo Zoe Compact Espresso Machine', badge:'First café', price:'€5,200', image:'assets/zoecompact.png', alt:'Sanremo Zoe Compact Espresso Machine', categories:['entry'], monthly:'Space-saving commercial espresso', specs:[['Best for','Small cafés / restaurants'],['Type','Compact espresso'],['Operator','Trained barista']], secondary:'Coffee supply' }
+          { name:'Nuova Simonelli Appia Life Compact', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/nuova-simonelli-appia-compact-espresso-machine', badge:'Compact bar', price:'€4,300 · Including VAT', image:'assets/APPIA LIFE COMPACT.jpg', alt:'Nuova Simonelli Appia Life Compact', categories:['entry'], monthly:'Compact hospitality setup', specs:[['Best for','Smaller cafés'],['Type','Compact espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
+          { name:'Sanremo Zoe Compact Espresso Machine', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/sanremo-zoe-compact', badge:'First café', price:'€5,200 · Including VAT', image:'assets/zoecompact.png', alt:'Sanremo Zoe Compact Espresso Machine', categories:['entry'], monthly:'Space-saving commercial espresso', specs:[['Best for','Small cafés / restaurants'],['Type','Compact espresso'],['Operator','Trained barista']], secondary:'Coffee supply' }
         ]
       },
       {
@@ -992,9 +1066,9 @@
         title: 'Growing cafés and hospitality',
         intro: 'Workhorse machines for busy cafés, hotels, restaurants, office coffee bars and all-day hospitality service.',
         products: [
-          { name:'Nuova Simonelli Appia Life XT', badge:'2G / 3G variants', price:'2G €5,890 | 3G €6,980 + VAT', image:'assets/APPIA LIFE XT - 2gp.webp', alt:'Nuova Simonelli Appia Life XT', categories:['growing'], variant:'Variant: Group Configuration', specs:[['Best for','Growing cafés'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Training' },
-          { name:'Nuova Simonelli Aurelia Vol XT', badge:'2G / 3G variants', price:'2G €7,200 | 3G €8,500 + VAT', image:'assets/nuova aurelia Vol 2gp.jpg', alt:'Nuova Simonelli Aurelia Vol XT', categories:['growing'], variant:'Variant: Group Configuration', specs:[['Best for','Busy service'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
-          { name:'Sanremo D8 Espresso Machine', badge:'2G / 3G variants', price:'2G €6,950 | 3G €9,450', image:'assets/Sanremo D8 2gp.jpg', alt:'Sanremo D8 Espresso Machine', categories:['growing'], variant:'Variant: Group Configuration', specs:[['Best for','Cafés / hotels'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Coffee supply' }
+          { name:'Nuova Simonelli Appia Life XT', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/nuova-simonelli-appia-life-xt-espresso-machine', badge:'2G / 3G variants', price:'2G €5,890 | 3G €6,980 · Including VAT', image:'assets/APPIA LIFE XT - 2gp.webp', alt:'Nuova Simonelli Appia Life XT', categories:['growing'], variant:'Variant: Group Configuration', specs:[['Best for','Growing cafés'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Training' },
+          { name:'Nuova Simonelli Aurelia Vol XT', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/nuova-aurelia-vol-xt-2-group-head', badge:'2G / 3G variants', price:'2G €7,200 | 3G €8,500 · Including VAT', image:'assets/nuova aurelia Vol 2gp.jpg', alt:'Nuova Simonelli Aurelia Vol XT', categories:['growing'], variant:'Variant: Group Configuration', specs:[['Best for','Busy service'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
+          { name:'Sanremo D8 Espresso Machine', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/sanremo-d8', badge:'2G / 3G variants', price:'2G €6,950 | 3G €9,450 · Including VAT', image:'assets/Sanremo D8 2gp.jpg', alt:'Sanremo D8 Espresso Machine', categories:['growing'], variant:'Variant: Group Configuration', specs:[['Best for','Cafés / hotels'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Coffee supply' }
         ]
       },
       {
@@ -1002,22 +1076,23 @@
         title: 'Premium and specialty espresso machines',
         intro: 'For precision-led cafés, flagship hospitality, premium office coffee bars and experienced barista teams.',
         products: [
-          { name:'La Marzocco Linea Classic 2 Group', badge:'Specialty', price:'€10,795 + VAT', image:'assets/linea classic 2 group.jpg', alt:'La Marzocco Linea Classic 2 Group', categories:['premium'], specs:[['Best for','Established cafés'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
-          { name:'La Marzocco Linea PB 2 Group', badge:'Precision', price:'€13,500 + VAT', image:'assets/lineapbav2gp.webp', alt:'La Marzocco Linea PB 2 Group', categories:['premium'], specs:[['Best for','High-volume specialty'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
-          { name:'Victoria Arduino Black Eagle Maverick', badge:'2G / 3G variants', price:'2G €17,345 | 3G €19,945 + VAT', image:'assets/Black Eagle Maverick 2gp.png', alt:'Victoria Arduino Black Eagle Maverick', categories:['premium'], variant:'Variant: Group Configuration', specs:[['Best for','Competition-level cafés'],['Type','Premium espresso'],['Operator','Trained barista']], secondary:'Training' },
-          { name:'Victoria Arduino Eagle One', badge:'2G / 3G variants', price:'2G €11,535 | 3G €13,490 + VAT', image:'assets/Eagle One 2gp.jpg', alt:'Victoria Arduino Eagle One', categories:['premium'], variant:'Variant: Group Configuration', specs:[['Best for','Sustainable specialty'],['Type','Premium espresso'],['Operator','Trained barista']], secondary:'Impact' },
-          { name:'Nuova Simonelli Aurelia Wave T3', badge:'2G / 3G variants', price:'2G €11,685 | 3G €13,320 + VAT', image:'assets/AURELIA WAVE T3 2gp.jpg', alt:'Nuova Simonelli Aurelia Wave T3', categories:['premium'], variant:'Variant: Group Configuration', specs:[['Best for','Precision extraction'],['Type','Specialty espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
-          { name:'Sanremo Café Racer Espresso Machine', badge:'Flagship', price:'€15,450', image:'assets/sanremo cafe racer 2gp.jpg', alt:'Sanremo Café Racer Espresso Machine', categories:['premium'], specs:[['Best for','Flagship venues'],['Type','Premium espresso'],['Operator','Trained barista']], secondary:'Training' },
-          { name:'Ascaso Barista T One Espresso Machine', badge:'Energy-conscious', price:'€7,000', image:'assets/Ascaso Barista T one 2 gp.jpg', alt:'Ascaso Barista T One Espresso Machine', categories:['premium'], specs:[['Best for','Specialty cafés'],['Type','2 Group espresso'],['Operator','Trained barista']], secondary:'Coffee supply' }
+          { name:'La Marzocco Linea Classic 2 Group', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/la-marzocco-linea-classic', badge:'Specialty', price:'€10,795 · Including VAT', image:'assets/linea classic 2 group.jpg', alt:'La Marzocco Linea Classic 2 Group', categories:['premium'], specs:[['Best for','Established cafés'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
+          { name:'La Marzocco Linea PB 2 Group', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/la-marzocco-linea-pb-two-group', badge:'Precision', price:'€13,500 · Including VAT', image:'assets/lineapbav2gp.webp', alt:'La Marzocco Linea PB 2 Group', categories:['premium'], specs:[['Best for','High-volume specialty'],['Type','Commercial espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
+          { name:'Victoria Arduino Black Eagle Maverick', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/victoria-arduino-black-eagle-maverick', badge:'2G / 3G variants', price:'2G €17,345 | 3G €19,945 · Including VAT', image:'assets/Black Eagle Maverick 2gp.png', alt:'Victoria Arduino Black Eagle Maverick', categories:['premium'], variant:'Variant: Group Configuration', specs:[['Best for','Competition-level cafés'],['Type','Premium espresso'],['Operator','Trained barista']], secondary:'Training' },
+          { name:'Victoria Arduino Eagle One', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/victoria-arduino-eagle-one-2-group', badge:'2G / 3G variants', price:'2G €11,535 | 3G €13,490 · Including VAT', image:'assets/Eagle One 2gp.jpg', alt:'Victoria Arduino Eagle One', categories:['premium'], variant:'Variant: Group Configuration', specs:[['Best for','Sustainable specialty'],['Type','Premium espresso'],['Operator','Trained barista']], secondary:'Impact' },
+          { name:'Nuova Simonelli Aurelia Wave T3', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/nuova-simonelli-aurelia-wave-t3', badge:'2G / 3G variants', price:'2G €11,685 | 3G €13,320 · Including VAT', image:'assets/AURELIA WAVE T3 2gp.jpg', alt:'Nuova Simonelli Aurelia Wave T3', categories:['premium'], variant:'Variant: Group Configuration', specs:[['Best for','Precision extraction'],['Type','Specialty espresso'],['Operator','Trained barista']], secondary:'Coffee supply' },
+          { name:'Sanremo Café Racer Espresso Machine', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/sanremo-cafe-racer-espresso-machine', badge:'Flagship', price:'€15,450 · Including VAT', image:'assets/sanremo cafe racer 2gp.jpg', alt:'Sanremo Café Racer Espresso Machine', categories:['premium'], specs:[['Best for','Flagship venues'],['Type','Premium espresso'],['Operator','Trained barista']], secondary:'Training' },
+          { name:'Ascaso Barista T One Espresso Machine', url:'https://moyeecoffee.ie/collections/commercial-espresso-machines/products/ascaso-barista-t-one-espresso-machine', badge:'Energy-conscious', price:'€7,000 · Including VAT', image:'assets/Ascaso Barista T one 2 gp.jpg', alt:'Ascaso Barista T One Espresso Machine', categories:['premium'], specs:[['Best for','Specialty cafés'],['Type','2 Group espresso'],['Operator','Trained barista']], secondary:'Coffee supply' }
         ]
       },
       {
         key: 'grinder',
         title: 'Grinders',
-        intro: 'Commercial grinders organised as ranges with variants, so buyers can compare the platform before choosing the model.',
+        intro: 'Commercial grinders and paired workflow tools, organised so buyers can compare the setup before choosing the right combination.',
         products: [
-          { name:'Victoria Arduino Coffee Grinder', badge:'Variants', price:'From €1,290', image:'assets/my65.jpg', alt:'Victoria Arduino Coffee Grinder', categories:['grinder'], variant:'Variants: MY65, MYONE, MY75 High Speed, MYG75, MDJ', specs:[['Best for','Café espresso workflow'],['Type','Commercial grinder'],['Route','Add to setup']], secondary:'Coffee supply' },
-          { name:'Fiorenzato F64 Coffee Grinder', badge:'Variants', price:'From €1,216', image:'assets/Fiorenzato_F64_EVO.webp', alt:'Fiorenzato F64 Coffee Grinder', categories:['grinder'], variant:'Variants: F64 EVO, F64 Grind by Weight with Easy Clean', specs:[['Best for','Growing cafés'],['Type','Commercial grinder'],['Route','Add to setup']], secondary:'Coffee supply' }
+          { name:'Victoria Arduino Coffee Grinder', badge:'Variants', price:'From €1,290 · Including VAT', image:'assets/my65.jpg', alt:'Victoria Arduino Coffee Grinder', categories:['grinder'], variant:'Variants: MY65, MYONE, MY75 High Speed, MYG75, MDJ', specs:[['Best for','Café espresso workflow'],['Type','Commercial grinder'],['Route','Add to setup']], secondary:'Coffee supply' },
+          { name:'Fiorenzato F64 Coffee Grinder', badge:'Variants', price:'From €1,216 · Including VAT', image:'assets/Fiorenzato_F64_EVO.webp', alt:'Fiorenzato F64 Coffee Grinder', categories:['grinder'], variant:'Variants: F64 EVO, F64 Grind by Weight with Easy Clean', specs:[['Best for','Growing cafés'],['Type','Commercial grinder'],['Route','Add to setup']], secondary:'Coffee supply' },
+          { name:'PUQpress M4 Automatic Coffee Tamper for Fiorenzato', badge:'Tamping', price:'€790 · Including VAT', image:'assets/PuqPress-M4-Black-Front-View.webp', alt:'PUQpress M4 Automatic Coffee Tamper for Fiorenzato', categories:['grinder'], specs:[['Best for','Fiorenzato grinder workflow'],['Type','Automatic tamper'],['Route','Add to grinder setup']], secondary:'Training' }
         ]
       },
       {
@@ -1025,8 +1100,8 @@
         title: 'Workflow accessories and modules',
         intro: 'Tools and modules that improve consistency, milk service, hot chocolate options and day-to-day coffee workflow.',
         products: [
-          { name:'Jura Cool Control 2.5L', badge:'Milk drinks', price:'€425.00', image:'https://moyeecoffee.ie/cdn/shop/files/big_milk_cooler_2500ml_v2_5000x.jpg?v=1778577033', alt:'Jura Cool Control 2.5L', categories:['workflow','office'], monthly:'Add-on for milk-led offices', specs:[['Best for','Flat whites / lattes'],['Type','Accessory'],['Route','Add to setup']], secondary:'Check fit' },
-          { name:'PUQpress M4 Automatic Coffee Tamper for Fiorenzato', badge:'Tamping', price:'€790', image:'assets/PuqPress-M4-Black-Front-View.webp', alt:'PUQpress M4 Automatic Coffee Tamper for Fiorenzato', categories:['workflow'], specs:[['Best for','Consistent tamping'],['Type','Workflow accessory'],['Route','Add to grinder setup']], secondary:'Training' },
+          { name:'Jura Cool Control 2.5L', badge:'Milk drinks', price:'€425.00 · Including VAT', image:'https://moyeecoffee.ie/cdn/shop/files/big_milk_cooler_2500ml_v2_5000x.jpg?v=1778577033', alt:'Jura Cool Control 2.5L', categories:['workflow','office'], monthly:'Add-on for milk-led offices', specs:[['Best for','Flat whites / lattes'],['Type','Accessory'],['Route','Add to setup']], secondary:'Check fit' },
+          
           { name:"Eversys E'choco Powder Module", badge:'Chocolate module', price:'Quote required', image:"assets/E'Choco Classic.png", alt:"Eversys E'choco Powder Module", categories:['workflow','superauto'], specs:[['Best for','Hot chocolate'],['Compatible','Enigma / Shotmaster'],['Route','Add to Eversys setup']], secondary:'Coffee plan' },
           { name:"Eversys C'choco Powder Module for Cameo", badge:'Chocolate module', price:'Quote required', image:"assets/Eversys C'choco.png", alt:"Eversys C'choco Powder Module", categories:['workflow','superauto'], specs:[['Best for','Hot chocolate'],['Compatible','Cameo'],['Route','Add to Cameo setup']], secondary:'Coffee plan' }
         ]
@@ -1038,14 +1113,14 @@
       return `
         <article class="product-card reveal" data-category="${product.categories.join(' ')}">
           <div class="product-badge">${product.badge}</div>
-          <div class="product-img"><img src="${product.image}" alt="${product.alt || product.name}" loading="lazy" /></div>
+          ${product.url ? `<a class="product-img product-page-link" href="${product.url}" aria-label="View ${product.name} product page"><img src="${product.image}" alt="${product.alt || product.name}" loading="lazy" /></a>` : `<div class="product-img"><img src="${product.image}" alt="${product.alt || product.name}" loading="lazy" /></div>`}
           <div class="product-body">
-            <div class="product-title">${product.name}</div>
+            <div class="product-title">${product.url ? `<a class="product-title-link" href="${product.url}">${product.name}</a>` : product.name}</div>
             <div class="price">${product.price}</div>
             ${product.monthly ? `<div class="monthly">${product.monthly}</div>` : ''}
             ${product.variant ? `<div class="variant-note">${product.variant}</div>` : ''}
             <div class="spec-list">${specs}</div>
-            <div class="product-actions"><a href="${product.url || '#quote'}" class="btn pink-btn">View buy or lease options</a><a href="#quote" class="btn secondary" data-product-quote="${product.name}">Custom setup</a></div>
+            <div class="product-actions"><a href="${product.url || '#quote'}" class="btn pink-btn"${product.url ? '' : ` data-product-quote="${product.name}"`}>View buy or lease options</a><a href="#quote" class="btn secondary" data-product-quote="${product.name}">Build a setup</a></div>
           </div>
         </article>`;
     }
@@ -1237,26 +1312,35 @@
     const quoteContextDetails=document.getElementById('quoteContextDetails');
     const quoteSubmitButton=document.getElementById('quoteSubmitButton');
     const quoteDrinkers=document.getElementById('quoteDrinkers');
+    const quoteInterest=document.getElementById('quoteInterest');
+    const quoteMessage=document.getElementById('quoteMessage');
+    const tastingLocation=document.getElementById('tastingLocation');
     const selectedSetupField=document.getElementById('selectedSetupField');
     const selectedMachineField=document.getElementById('selectedMachineField');
     const selectedDrinkersField=document.getElementById('selectedDrinkersField');
-    const selectedCupsField=document.getElementById('selectedCupsField');
-    const selectedBagsField=document.getElementById('selectedBagsField');
+    const selectedCasesField=document.getElementById('selectedCasesField');
+    const selectedKgField=document.getElementById('selectedKgField');
+    const enquiryRouteField=document.getElementById('enquiryRouteField');
 
     function clearQuoteSelection(){
       quoteForm?.classList.remove('has-selection');
+      quoteForm?.classList.remove('is-tasting');
       quoteContext?.classList.remove('is-visible');
       if(quoteContextTitle) quoteContextTitle.textContent='Setup selected';
       if(quoteContextDetails) quoteContextDetails.textContent='';
       if(selectedSetupField) selectedSetupField.value='';
       if(selectedMachineField) selectedMachineField.value='';
       if(selectedDrinkersField) selectedDrinkersField.value='';
-      if(selectedCupsField) selectedCupsField.value='';
-      if(selectedBagsField) selectedBagsField.value='';
+      if(selectedCasesField) selectedCasesField.value='';
+      if(selectedKgField) selectedKgField.value='';
+      if(enquiryRouteField) enquiryRouteField.value='Direct B2B enquiry';
+      if(quoteInterest) quoteInterest.value='Not sure yet';
+      if(quoteMessage) quoteMessage.placeholder='Tell us what you need: office coffee, machine, supply, lease, event, tasting, product demo, tree planting, training or timeline...';
+      if(tastingLocation) tastingLocation.value='';
       if(quoteSubmitButton) quoteSubmitButton.textContent='Get my recommendation';
     }
 
-    function setQuoteSelection({setup='',machine='',details='',drinkers='',cups='',bags=''}){
+    function setQuoteSelection({setup='',machine='',details='',drinkers='',cases='',kg=''}){
       quoteForm?.classList.add('has-selection');
       quoteContext?.classList.add('is-visible');
       if(quoteContextTitle) quoteContextTitle.textContent=setup || machine || 'Selected setup';
@@ -1265,29 +1349,31 @@
       if(selectedSetupField) selectedSetupField.value=setup;
       if(selectedMachineField) selectedMachineField.value=machine;
       if(selectedDrinkersField) selectedDrinkersField.value=drinkers;
-      if(selectedCupsField) selectedCupsField.value=cups;
-      if(selectedBagsField) selectedBagsField.value=bags;
+      if(selectedCasesField) selectedCasesField.value=cases;
+      if(selectedKgField) selectedKgField.value=kg;
+      if(enquiryRouteField) enquiryRouteField.value=machine ? 'Selected product / setup' : 'Setup finder recommendation';
       if(quoteSubmitButton) quoteSubmitButton.textContent='Get my quote';
     }
 
     document.getElementById('quoteRecommendedSetup')?.addEventListener('click',()=>{
       const d=Number(range.value);
-      const daily=d*3;
-      const bags=Math.ceil((daily*18*5/1000)*4.33);
-      const rec=recommendations.find(item=>d<=item.max);
+      const estimate=coffeeCaseEstimate(d);
+      const rec=recommendations.find(item=>d<=item.max) || recommendations[recommendations.length-1];
+      const delivery=d>200?'Twice monthly':'Monthly';
       setQuoteSelection({
         setup:rec.title,
         machine:rec.machine,
-        details:`${d>=200?'200+':d} coffee drinkers · ${daily>=600?'600+':daily} cups/day · ${bags>=234?'234+':bags} × 1kg bags/month · ${rec.coffee} · ${rec.service}`,
-        drinkers:d>=200?'200+':d,
-        cups:daily>=600?'600+':daily,
-        bags:bags>=234?'234+':bags
+        details:`${d>200?'200+':d} coffee drinkers · ${estimate.label} / month · ${estimate.kgLabel} coffee · ${delivery} delivery · ${rec.service}`,
+        drinkers:d>200?'200+':d,
+        cases:estimate.label,
+        kg:estimate.kgLabel
       });
+      if(enquiryRouteField) enquiryRouteField.value='Setup finder recommendation';
     });
 
     /* Any catalogue CTA that leads to #quote carries the product into the quote state. */
     document.addEventListener('click',(event)=>{
-      const productQuote=event.target.closest('.product-card a[href="#quote"]');
+      const productQuote=event.target.closest('.product-card [data-product-quote]');
       if(!productQuote) return;
       const card=productQuote.closest('.product-card');
       const productName=card?.querySelector('.product-title')?.textContent?.trim() || 'Catalogue product';
@@ -1297,11 +1383,26 @@
         machine:productName,
         details:productPrice ? `${productName} · ${productPrice}` : productName
       });
+      if(enquiryRouteField) enquiryRouteField.value='Selected product / Build a setup';
+    });
+
+
+    function openTastingRequest(){
+      clearQuoteSelection();
+      quoteForm?.classList.add('is-tasting');
+      if(quoteInterest) quoteInterest.value='Office tasting';
+      if(quoteMessage) quoteMessage.placeholder='Tell us whether you would prefer a tasting at your workplace or at Moyee in Dublin 7, plus any preferred dates or times...';
+      if(enquiryRouteField) enquiryRouteField.value='Office tasting request';
+      if(quoteSubmitButton) quoteSubmitButton.textContent='Arrange my tasting';
+    }
+
+    document.querySelectorAll('[data-tasting-request]').forEach((link)=>{
+      link.addEventListener('click',()=>openTastingRequest());
     });
 
     /* Every other #quote link is the open-ended recommendation journey. */
     document.querySelectorAll('a[href="#quote"]').forEach((link)=>{
-      if(link.id==='quoteRecommendedSetup' || link.closest('.product-card')) return;
+      if(link.id==='quoteRecommendedSetup' || link.closest('.product-card') || link.hasAttribute('data-tasting-request')) return;
       link.addEventListener('click',()=>clearQuoteSelection());
     });
 
@@ -1325,5 +1426,12 @@
 
     document.querySelectorAll('.faq-item').forEach((item)=>item.addEventListener('click',()=>item.classList.toggle('open')));
   </script>
+
+  <script>
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#quoteForm', formId: 'xdeoygpq' });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
 </body>
 </html>
